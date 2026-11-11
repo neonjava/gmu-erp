@@ -5,7 +5,7 @@ import in.neonjava.erp.repo.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.CommandLineRunner;
+import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,9 +14,10 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.*;
 
-/** Fills an empty database with sample data so every screen has something to show. */
+/** Fills an empty database with sample data so every screen has something to show.
+ *  Runs before the web server starts, so no request can arrive before the demo logins exist. */
 @Component
-public class DemoDataSeeder implements CommandLineRunner {
+public class DemoDataSeeder implements SmartInitializingSingleton {
 
     private static final Logger log = LoggerFactory.getLogger(DemoDataSeeder.class);
 
@@ -52,7 +53,7 @@ public class DemoDataSeeder implements CommandLineRunner {
 
     @Override
     @Transactional
-    public void run(String... args) {
+    public void afterSingletonsInstantiated() {
         if (users.count() > 0) return;
 
         // The admin account is always created on an empty database.
