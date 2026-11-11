@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Profile')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="container">
+    <div th:replace="~{fragments/layout :: flash}"></div>
+    <h1 th:text="${me.displayName}">Name</h1>
+    <div class="muted" th:text="${me.username} + ' · ' + ${me.role}"></div>
+
+    <h2>Details</h2>
+    <div class="table-wrap">
+        <table style="max-width:560px">
+            <th:block th:if="${me.student != null}" th:with="s=${me.student}">
+                <tr><th>USN</th><td th:text="${s.usn}"></td></tr>
+                <tr><th>Department</th><td th:text="${s.department?.name}"></td></tr>
+                <tr><th>Semester / Section</th><td th:text="${s.semester} + ' / ' + ${s.section}"></td></tr>
+                <tr><th>Email</th><td th:text="${s.email}"></td></tr>
+                <tr><th>Phone</th><td th:text="${s.phone}"></td></tr>
+            </th:block>
+            <th:block th:if="${me.faculty != null}" th:with="f=${me.faculty}">
+                <tr><th>Employee ID</th><td th:text="${f.empId}"></td></tr>
+                <tr><th>Designation</th><td th:text="${f.designation}"></td></tr>
+                <tr><th>Department</th><td th:text="${f.department?.name}"></td></tr>
+                <tr><th>Email</th><td th:text="${f.email}"></td></tr>
+                <tr><th>Phone</th><td th:text="${f.phone}"></td></tr>
+            </th:block>
+            <tr th:if="${me.student == null and me.faculty == null}"><th>Role</th><td>Administrator</td></tr>
+        </table>
+    </div>
+
+    <h2>Change password</h2>
+    <form th:action="@{/profile/password}" method="post" style="max-width:320px">
+        <label>Current password</label><input type="password" name="current" required>
+        <label style="margin-top:10px">New password</label><input type="password" name="next" minlength="6" required>
+        <label style="margin-top:10px">Confirm new password</label><input type="password" name="confirm" minlength="6" required>
+        <div class="form-actions"><button class="primary" type="submit">Change password</button></div>
+    </form>
+</main>
+</body>
+</html>

@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: gmu-erp
+    runtime: docker
+    plan: free
+    healthCheckPath: /login
+    autoDeploy: true

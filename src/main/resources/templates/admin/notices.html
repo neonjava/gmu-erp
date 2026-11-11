@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Notices')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="container">
+    <div th:replace="~{fragments/layout :: flash}"></div>
+    <h1>Notices</h1>
+
+    <h2>Post a notice</h2>
+    <form method="post" th:action="@{/admin/notices}" style="max-width:640px">
+        <label>Title</label><input name="title" required>
+        <label style="margin-top:10px">Message</label><textarea name="body" rows="4"></textarea>
+        <div class="form-actions"><button class="primary" type="submit">Post</button></div>
+    </form>
+
+    <h2>All notices</h2>
+    <div th:if="${#lists.isEmpty(notices)}" class="muted">No notices yet.</div>
+    <div class="notice" th:each="n : ${notices}">
+        <b th:text="${n.title}"></b>
+        <span class="muted small" th:text="' · ' + ${#temporals.format(n.postedOn, 'dd MMM yyyy')}"></span>
+        <form class="inline" method="post" th:action="@{/admin/notices/{id}/delete(id=${n.id})}" data-confirm="Delete this notice?">
+            · <button class="link-btn" type="submit">delete</button>
+        </form>
+        <div th:text="${n.body}"></div>
+    </div>
+</main>
+</body>
+</html>

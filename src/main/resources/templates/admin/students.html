@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Students')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="container">
+    <div th:replace="~{fragments/layout :: flash}"></div>
+    <div class="page-head">
+        <div><h1>Students</h1><div class="muted" th:text="${#lists.size(students)} + ' shown'"></div></div>
+        <div class="toolbar">
+            <form class="toolbar" method="get" th:action="@{/admin/students}">
+                <input name="q" th:value="${q}" placeholder="Search name or USN">
+                <button type="submit">Search</button>
+            </form>
+            <a class="btn primary" th:href="@{/admin/students/new}">+ Add student</a>
+        </div>
+    </div>
+    <div class="table-wrap">
+        <table>
+            <tr><th>USN</th><th>Name</th><th>Dept</th><th class="num">Sem</th><th>Sec</th><th>Email</th><th></th></tr>
+            <tr th:each="s : ${students}">
+                <td th:text="${s.usn}"></td>
+                <td th:text="${s.name}"></td>
+                <td th:text="${s.department?.code}"></td>
+                <td class="num" th:text="${s.semester}"></td>
+                <td th:text="${s.section}"></td>
+                <td th:text="${s.email}"></td>
+                <td class="toolbar">
+                    <a class="btn small" th:href="@{/admin/students/{id}/edit(id=${s.id})}">Edit</a>
+                    <form class="inline" method="post" th:action="@{/admin/students/{id}/reset-password(id=${s.id})}"
+                          th:attr="data-confirm='Reset password for ' + ${s.usn} + '?'">
+                        <button class="small" type="submit">Reset password</button>
+                    </form>
+                    <form class="inline" method="post" th:action="@{/admin/students/{id}/delete(id=${s.id})}"
+                          th:attr="data-confirm='Delete ' + ${s.usn} + ' and all their records?'">
+                        <button class="small" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(students)}"><td colspan="7" class="muted">No students found.</td></tr>
+        </table>
+    </div>
+</main>
+</body>
+</html>

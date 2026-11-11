@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Results')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="container">
+    <div class="page-head">
+        <div>
+            <h1>Results</h1>
+            <div class="muted">CIE 1 and CIE 2 out of 25 each · SEE out of 50 · Total out of 100</div>
+        </div>
+        <div class="stat"><b th:text="${sgpa != null ? sgpa : '-'}">-</b><span>SGPA (graded courses)</span></div>
+    </div>
+    <div th:if="${#lists.isEmpty(rows)}" class="muted">You are not registered for any course yet.</div>
+    <div class="table-wrap" th:unless="${#lists.isEmpty(rows)}">
+        <table>
+            <tr>
+                <th>Code</th><th>Course</th><th class="num">Credits</th>
+                <th class="num">CIE 1</th><th class="num">CIE 2</th><th class="num">CIE</th>
+                <th class="num">SEE</th><th class="num">Total</th><th>Grade</th>
+            </tr>
+            <tr th:each="m : ${rows}" th:classappend="${m.grade == 'F'} ? 'flag'">
+                <td th:text="${m.course.code}"></td>
+                <td th:text="${m.course.name}"></td>
+                <td class="num" th:text="${m.course.credits}"></td>
+                <td class="num" th:text="${m.cie1 != null ? m.cie1 : '-'}"></td>
+                <td class="num" th:text="${m.cie2 != null ? m.cie2 : '-'}"></td>
+                <td class="num" th:text="${m.cieTotal}"></td>
+                <td class="num" th:text="${m.see != null ? m.see : '-'}"></td>
+                <td class="num" th:text="${m.see != null ? m.total : '-'}"></td>
+                <td>
+                    <span th:if="${m.see != null}" class="tag" th:text="${m.grade}"></span>
+                    <span th:if="${m.see == null}" class="muted small">Awaiting SEE</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+</main>
+</body>
+</html>

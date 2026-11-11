@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${student.id == null ? 'Add student' : 'Edit student'})}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="container">
+    <div th:replace="~{fragments/layout :: flash}"></div>
+    <h1 th:text="${student.id == null ? 'Add student' : 'Edit ' + student.usn}"></h1>
+    <p class="muted small" th:if="${student.id == null}">A login is created automatically: username = USN, password = student123.</p>
+
+    <form method="post" th:action="@{/admin/students}">
+        <input type="hidden" name="id" th:value="${student.id}">
+        <div class="form-grid">
+            <div>
+                <label>USN</label>
+                <input name="usn" th:value="${student.usn}" th:readonly="${student.id != null}" required>
+            </div>
+            <div><label>Full name</label><input name="name" th:value="${student.name}" required></div>
+            <div><label>Email</label><input type="email" name="email" th:value="${student.email}"></div>
+            <div><label>Phone</label><input name="phone" th:value="${student.phone}"></div>
+            <div>
+                <label>Department</label>
+                <select name="departmentId">
+                    <option value="">—</option>
+                    <option th:each="d : ${departments}" th:value="${d.id}" th:text="${d.code} + ' · ' + ${d.name}"
+                            th:selected="${student.department != null and student.department.id == d.id}"></option>
+                </select>
+            </div>
+            <div><label>Semester</label><input type="number" min="1" max="8" name="semester" th:value="${student.semester}"></div>
+            <div><label>Section</label><input name="section" maxlength="5" th:value="${student.section}"></div>
+        </div>
+        <div class="form-actions">
+            <button class="primary" type="submit">Save</button>
+            <a class="btn" th:href="@{/admin/students}">Cancel</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

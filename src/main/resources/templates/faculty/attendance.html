@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Mark Attendance')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="container">
+    <div th:replace="~{fragments/layout :: flash}"></div>
+    <div class="page-head">
+        <div>
+            <h1 th:text="'Attendance · ' + ${course.code}"></h1>
+            <div class="muted" th:text="${course.name}"></div>
+        </div>
+        <form class="toolbar" method="get" th:action="@{/faculty/courses/{id}/attendance(id=${course.id})}">
+            <input type="date" name="date" th:value="${date}" th:max="${today}">
+            <button type="submit">Open date</button>
+        </form>
+    </div>
+
+    <p>
+        <b th:text="${#temporals.format(date, 'EEEE, dd MMM yyyy')}"></b>
+        <span th:if="${taken}" class="tag">Already taken: editing</span>
+        <span th:unless="${taken}" class="tag">Not taken yet</span>
+    </p>
+
+    <div th:if="${#lists.isEmpty(students)}" class="muted">No students registered for this course.</div>
+    <form th:unless="${#lists.isEmpty(students)}" method="post"
+          th:action="@{/faculty/courses/{id}/attendance(id=${course.id})}">
+        <input type="hidden" name="date" th:value="${date}">
+        <div class="toolbar" style="margin-bottom:10px">
+            <button type="button" class="small" onclick="document.querySelectorAll('.p').forEach(c => c.checked = true)">All present</button>
+            <button type="button" class="small" onclick="document.querySelectorAll('.p').forEach(c => c.checked = false)">All absent</button>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <tr><th class="num">#</th><th>USN</th><th>Name</th><th>Present</th></tr>
+                <tr th:each="s, st : ${students}">
+                    <td class="num" th:text="${st.count}"></td>
+                    <td th:text="${s.usn}"></td>
+                    <td th:text="${s.name}"></td>
+                    <td>
+                        <input class="p" type="checkbox" name="present" th:value="${s.id}"
+                               th:checked="${taken ? present.contains(s.id) : true}">
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="form-actions"><button class="primary" type="submit">Save attendance</button></div>
+    </form>
+</main>
+</body>
+</html>

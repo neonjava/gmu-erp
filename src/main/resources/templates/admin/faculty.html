@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Faculty')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="container">
+    <div th:replace="~{fragments/layout :: flash}"></div>
+    <div class="page-head">
+        <div><h1>Faculty</h1><div class="muted" th:text="${#lists.size(faculty)} + ' shown'"></div></div>
+        <div class="toolbar">
+            <form class="toolbar" method="get" th:action="@{/admin/faculty}">
+                <input name="q" th:value="${q}" placeholder="Search name or ID">
+                <button type="submit">Search</button>
+            </form>
+            <a class="btn primary" th:href="@{/admin/faculty/new}">+ Add faculty</a>
+        </div>
+    </div>
+    <div class="table-wrap">
+        <table>
+            <tr><th>Emp ID</th><th>Name</th><th>Designation</th><th>Dept</th><th>Email</th><th></th></tr>
+            <tr th:each="f : ${faculty}">
+                <td th:text="${f.empId}"></td>
+                <td th:text="${f.name}"></td>
+                <td th:text="${f.designation}"></td>
+                <td th:text="${f.department?.code}"></td>
+                <td th:text="${f.email}"></td>
+                <td class="toolbar">
+                    <a class="btn small" th:href="@{/admin/faculty/{id}/edit(id=${f.id})}">Edit</a>
+                    <form class="inline" method="post" th:action="@{/admin/faculty/{id}/reset-password(id=${f.id})}"
+                          th:attr="data-confirm='Reset password for ' + ${f.empId} + '?'">
+                        <button class="small" type="submit">Reset password</button>
+                    </form>
+                    <form class="inline" method="post" th:action="@{/admin/faculty/{id}/delete(id=${f.id})}"
+                          th:attr="data-confirm='Delete ' + ${f.empId} + '?'">
+                        <button class="small" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(faculty)}"><td colspan="6" class="muted">No faculty found.</td></tr>
+        </table>
+    </div>
+</main>
+</body>
+</html>

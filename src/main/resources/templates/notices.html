@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Latest News')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="container">
+    <h1>Latest News</h1>
+    <div th:if="${#lists.isEmpty(notices)}" class="muted">No notices yet.</div>
+    <div class="notice" th:each="n : ${notices}">
+        <b th:text="${n.title}">Title</b>
+        <span class="muted small" th:text="' · ' + ${#temporals.format(n.postedOn, 'dd MMM yyyy')}"></span>
+        <div th:text="${n.body}">Body</div>
+    </div>
+</main>
+</body>
+</html>

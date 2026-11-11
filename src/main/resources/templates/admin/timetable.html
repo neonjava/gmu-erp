@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Time Table')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="container">
+    <div th:replace="~{fragments/layout :: flash}"></div>
+    <div class="page-head">
+        <div><h1>Time Table</h1><div class="muted" th:text="'Semester ' + ${semester} + ' · Section ' + ${section}"></div></div>
+        <form class="toolbar" method="get" th:action="@{/admin/timetable}">
+            <label style="margin:0">Sem</label><input type="number" min="1" max="8" name="semester" th:value="${semester}" style="width:70px">
+            <label style="margin:0">Sec</label><input name="section" th:value="${section}" style="width:60px">
+            <button type="submit">Show</button>
+        </form>
+    </div>
+
+    <div class="table-wrap">
+        <table class="tt">
+            <tr>
+                <th class="day">Day</th>
+                <th th:each="t, st : ${times}" th:text="'P' + ${st.count} + ' · ' + ${t}"></th>
+            </tr>
+            <tr th:each="day : ${days}">
+                <th class="day" th:text="${#strings.capitalize(#strings.toLowerCase(day.name()))}"></th>
+                <th:block th:each="t, st : ${times}" th:with="slot=${grid[day.name() + '-' + st.count]}">
+                    <td th:if="${slot != null}">
+                        <b th:text="${slot.course.code}"></b><br>
+                        <span class="muted" th:text="${slot.room}"></span>
+                    </td>
+                    <td th:if="${slot == null}" class="empty">—</td>
+                </th:block>
+            </tr>
+        </table>
+    </div>
+
+    <h2>Set or clear a slot</h2>
+    <form method="post" th:action="@{/admin/timetable}" class="toolbar">
+        <input type="hidden" name="semester" th:value="${semester}">
+        <input type="hidden" name="section" th:value="${section}">
+        <select name="day">
+            <option th:each="d : ${days}" th:value="${d}" th:text="${#strings.capitalize(#strings.toLowerCase(d.name()))}"></option>
+        </select>
+        <select name="period">
+            <option th:each="t, st : ${times}" th:value="${st.count}" th:text="'P' + ${st.count} + ' · ' + ${t}"></option>
+        </select>
+        <select name="courseId">
+            <option value="">(clear slot)</option>
+            <option th:each="c : ${courses}" th:value="${c.id}" th:text="${c.code} + ' · ' + ${c.name}"></option>
+        </select>
+        <input name="room" placeholder="Room" style="width:110px">
+        <button class="primary" type="submit">Save slot</button>
+    </form>
+    <p class="muted small" th:if="${#lists.isEmpty(courses)}">No courses exist for this semester yet. Add them under Courses first.</p>
+</main>
+</body>
+</html>

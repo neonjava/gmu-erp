@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Courses')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="container">
+    <div th:replace="~{fragments/layout :: flash}"></div>
+    <div class="page-head">
+        <h1>Courses</h1>
+        <a class="btn primary" th:href="@{/admin/courses/new}">+ Add course</a>
+    </div>
+    <div class="table-wrap">
+        <table>
+            <tr><th>Code</th><th>Name</th><th>Dept</th><th class="num">Sem</th><th class="num">Credits</th>
+                <th>Faculty</th><th class="num">Students</th><th></th></tr>
+            <tr th:each="c : ${courses}">
+                <td th:text="${c.code}"></td>
+                <td th:text="${c.name}"></td>
+                <td th:text="${c.department?.code}"></td>
+                <td class="num" th:text="${c.semester}"></td>
+                <td class="num" th:text="${c.credits}"></td>
+                <td th:text="${c.faculty != null ? c.faculty.name : 'Unassigned'}"></td>
+                <td class="num" th:text="${counts[c.id]}"></td>
+                <td class="toolbar">
+                    <a class="btn small" th:href="@{/admin/courses/{id}/edit(id=${c.id})}">Edit</a>
+                    <form class="inline" method="post" th:action="@{/admin/courses/{id}/delete(id=${c.id})}"
+                          th:attr="data-confirm='Delete ' + ${c.code} + ' with all its attendance and marks?'">
+                        <button class="small" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(courses)}"><td colspan="8" class="muted">No courses yet.</td></tr>
+        </table>
+    </div>
+</main>
+</body>
+</html>

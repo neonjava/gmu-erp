@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('My Courses')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="container">
+    <h1>My Courses</h1>
+    <div th:if="${#lists.isEmpty(courses)}" class="muted">No courses assigned to you yet. Ask the admin to assign courses.</div>
+    <div class="table-wrap" th:unless="${#lists.isEmpty(courses)}">
+        <table>
+            <tr><th>Code</th><th>Course</th><th class="num">Sem</th><th class="num">Students</th><th></th></tr>
+            <tr th:each="c : ${courses}">
+                <td th:text="${c.code}"></td>
+                <td th:text="${c.name}"></td>
+                <td class="num" th:text="${c.semester}"></td>
+                <td class="num" th:text="${counts[c.id]}"></td>
+                <td class="toolbar">
+                    <a class="btn small" th:href="@{/faculty/courses/{id}/attendance(id=${c.id})}">Attendance</a>
+                    <a class="btn small" th:href="@{/faculty/courses/{id}/marks(id=${c.id})}">Marks</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</main>
+</body>
+</html>

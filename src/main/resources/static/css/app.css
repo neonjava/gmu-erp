@@ -1,0 +1,136 @@
+/* Plain black-and-white theme. */
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    color: #111;
+    background: #fff;
+    line-height: 1.45;
+}
+
+a { color: #111; }
+h1 { font-size: 22px; margin: 0 0 4px; }
+h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; margin: 28px 0 10px; color: #444; }
+.muted { color: #666; }
+.small { font-size: 13px; }
+
+/* ---------- Top bar ---------- */
+.topbar {
+    border-bottom: 2px solid #111;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+.brand { font-weight: 700; font-size: 18px; text-decoration: none; white-space: nowrap; }
+.nav { display: flex; gap: 14px; flex-wrap: wrap; flex: 1; }
+.nav a { text-decoration: none; font-size: 14px; }
+.nav a:hover { text-decoration: underline; }
+.who { display: flex; align-items: center; gap: 10px; font-size: 14px; }
+.who form { margin: 0; }
+
+.container { max-width: 1040px; margin: 0 auto; padding: 20px 16px 60px; }
+.page-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+
+/* ---------- Buttons & forms ---------- */
+.btn, button {
+    display: inline-block;
+    font: inherit;
+    font-size: 14px;
+    padding: 6px 14px;
+    border: 1px solid #111;
+    background: #fff;
+    color: #111;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 0;
+}
+.btn:hover, button:hover { background: #111; color: #fff; }
+.btn.primary, button.primary { background: #111; color: #fff; }
+.btn.primary:hover, button.primary:hover { background: #fff; color: #111; }
+.btn.small, button.small { padding: 2px 8px; font-size: 13px; }
+.link-btn { border: none; padding: 0; background: none; text-decoration: underline; font-size: 13px; }
+.link-btn:hover { background: none; color: #111; }
+.inline { display: inline; margin: 0; }
+
+input, select, textarea {
+    font: inherit;
+    padding: 6px 8px;
+    border: 1px solid #999;
+    background: #fff;
+    border-radius: 0;
+    width: 100%;
+}
+input:focus, select:focus, textarea:focus { outline: 2px solid #111; outline-offset: -1px; border-color: #111; }
+input[type=checkbox] { width: auto; transform: scale(1.2); }
+label { display: block; font-size: 13px; margin-bottom: 4px; color: #333; }
+
+.form-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; max-width: 720px; }
+.form-actions { margin-top: 18px; display: flex; gap: 8px; }
+.toolbar { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.toolbar input, .toolbar select { width: auto; }
+
+/* ---------- Tables ---------- */
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; }
+th, td { border: 1px solid #ccc; padding: 7px 9px; text-align: left; vertical-align: top; }
+th { background: #f2f2f2; font-weight: 600; font-size: 13px; }
+td.num, th.num { text-align: right; }
+td input { min-width: 56px; padding: 4px 6px; }
+tr.flag td { font-weight: 600; }
+.tag { border: 1px solid #111; padding: 0 6px; font-size: 12px; white-space: nowrap; }
+.tag.solid { background: #111; color: #fff; }
+
+/* ---------- Timetable grid ---------- */
+.tt td { height: 64px; min-width: 120px; font-size: 13px; }
+.tt td.empty { color: #aaa; }
+.tt th.day { width: 90px; }
+
+/* ---------- Dashboard ---------- */
+.hello { border: 1px solid #111; padding: 16px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.stats { display: flex; gap: 24px; flex-wrap: wrap; }
+.stat b { display: block; font-size: 24px; }
+.stat span { font-size: 12px; color: #555; text-transform: uppercase; letter-spacing: .05em; }
+
+.search { margin: 16px 0 0; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+.tile {
+    border: 1px solid #111;
+    padding: 14px 12px;
+    min-height: 72px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.tile:hover { background: #111; color: #fff; }
+.tile small { font-size: 12px; color: inherit; opacity: .7; }
+.tile.soon { border-style: dashed; border-color: #aaa; color: #999; pointer-events: none; }
+
+.notice { border-bottom: 1px solid #ddd; padding: 10px 0; }
+.notice:last-child { border-bottom: none; }
+
+/* ---------- Bar for percentages ---------- */
+.bar { border: 1px solid #111; height: 10px; width: 140px; display: inline-block; vertical-align: middle; }
+.bar i { display: block; height: 100%; background: #111; }
+
+/* ---------- Flash messages ---------- */
+.flash { padding: 10px 12px; margin-bottom: 16px; border: 1px solid #111; }
+.flash.error { border-width: 2px; font-weight: 600; }
+
+/* ---------- Login ---------- */
+.login-box { max-width: 360px; margin: 10vh auto; border: 2px solid #111; padding: 28px; }
+.login-box h1 { margin-bottom: 2px; }
+.login-box .field { margin-top: 14px; }
+.login-box .remember { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 14px; }
+.login-box .remember label { margin: 0; font-size: 14px; }
+.demo { margin-top: 18px; font-size: 13px; color: #555; border-top: 1px solid #ddd; padding-top: 12px; }
+
+@media (max-width: 640px) {
+    .topbar { padding: 10px 12px; }
+    .nav { order: 3; width: 100%; }
+    .container { padding: 14px 12px 40px; }
+}

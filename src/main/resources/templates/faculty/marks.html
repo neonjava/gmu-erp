@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Enter Marks')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="container">
+    <div th:replace="~{fragments/layout :: flash}"></div>
+    <div class="page-head">
+        <div>
+            <h1 th:text="'Marks · ' + ${course.code}"></h1>
+            <div class="muted" th:text="${course.name} + ' · CIE 1 and CIE 2 out of 25, SEE out of 50. Leave blank if not conducted.'"></div>
+        </div>
+    </div>
+
+    <div th:if="${#lists.isEmpty(rows)}" class="muted">No students registered for this course.</div>
+    <form th:unless="${#lists.isEmpty(rows)}" method="post" th:action="@{/faculty/courses/{id}/marks(id=${course.id})}">
+        <div class="table-wrap">
+            <table>
+                <tr>
+                    <th>USN</th><th>Name</th><th>CIE 1</th><th>CIE 2</th><th>SEE</th>
+                    <th class="num">Total</th><th>Grade</th>
+                </tr>
+                <tr th:each="m : ${rows}">
+                    <td th:text="${m.student.usn}"></td>
+                    <td th:text="${m.student.name}"></td>
+                    <td><input type="number" min="0" max="25" th:name="'cie1_' + ${m.student.id}" th:value="${m.cie1}"></td>
+                    <td><input type="number" min="0" max="25" th:name="'cie2_' + ${m.student.id}" th:value="${m.cie2}"></td>
+                    <td><input type="number" min="0" max="50" th:name="'see_' + ${m.student.id}" th:value="${m.see}"></td>
+                    <td class="num" th:text="${m.total}"></td>
+                    <td th:text="${m.grade}"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="form-actions"><button class="primary" type="submit">Save marks</button></div>
+    </form>
+</main>
+</body>
+</html>

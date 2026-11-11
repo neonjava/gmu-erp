@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Time Table')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="container">
+    <div class="page-head">
+        <div><h1>Time Table</h1><div class="muted" th:text="${title}"></div></div>
+    </div>
+    <div class="table-wrap">
+        <table class="tt">
+            <tr>
+                <th class="day">Day</th>
+                <th th:each="t, st : ${times}" th:text="'P' + ${st.count} + ' · ' + ${t}"></th>
+            </tr>
+            <tr th:each="day : ${days}">
+                <th class="day" th:text="${#strings.capitalize(#strings.toLowerCase(day.name()))}"></th>
+                <th:block th:each="t, st : ${times}" th:with="slot=${grid[day.name() + '-' + st.count]}">
+                    <td th:if="${slot != null}">
+                        <b th:text="${slot.course.code}"></b><br>
+                        <span th:text="${slot.course.name}"></span><br>
+                        <span class="muted" th:text="${slot.room}"></span>
+                    </td>
+                    <td th:if="${slot == null}" class="empty">—</td>
+                </th:block>
+            </tr>
+        </table>
+    </div>
+</main>
+</body>
+</html>

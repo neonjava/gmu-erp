@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Departments')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="container">
+    <div th:replace="~{fragments/layout :: flash}"></div>
+    <h1>Departments</h1>
+    <div class="table-wrap" style="max-width:600px;margin-top:12px">
+        <table>
+            <tr><th>Code</th><th>Name</th></tr>
+            <tr th:each="d : ${departments}"><td th:text="${d.code}"></td><td th:text="${d.name}"></td></tr>
+        </table>
+    </div>
+    <h2>Add department</h2>
+    <form method="post" th:action="@{/admin/departments}" class="toolbar">
+        <input name="code" placeholder="Code (e.g. AIML)" maxlength="10" required style="width:160px">
+        <input name="name" placeholder="Full name" required style="width:320px">
+        <button class="primary" type="submit">Add</button>
+    </form>
+</main>
+</body>
+</html>
