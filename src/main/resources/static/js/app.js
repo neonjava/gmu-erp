@@ -21,3 +21,15 @@ document.addEventListener('submit', e => {
     const msg = e.target.getAttribute('data-confirm');
     if (msg && !window.confirm(msg)) e.preventDefault();
 });
+
+// Highlight the current section in the top nav.
+document.addEventListener('DOMContentLoaded', () => {
+    const path = location.pathname;
+    let best = null;
+    document.querySelectorAll('.nav a').forEach(a => {
+        const href = new URL(a.href).pathname;
+        const hit = href === '/' ? path === '/' : (path === href || path.startsWith(href + '/'));
+        if (hit && (!best || href.length > new URL(best.href).pathname.length)) best = a;
+    });
+    if (best) best.classList.add('active');
+});

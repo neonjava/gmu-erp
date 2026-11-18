@@ -29,7 +29,7 @@
                 <td class="num" th:text="${m.see != null ? m.see : '-'}"></td>
                 <td class="num" th:text="${m.see != null ? m.total : '-'}"></td>
                 <td>
-                    <span th:if="${m.see != null}" class="tag" th:text="${m.grade}"></span>
+                    <span th:if="${m.see != null}" class="tag" th:classappend="${m.grade == 'F'} ? 'danger'" th:text="${m.grade}"></span>
                     <span th:if="${m.see == null}" class="muted small">Awaiting SEE</span>
                 </td>
             </tr>

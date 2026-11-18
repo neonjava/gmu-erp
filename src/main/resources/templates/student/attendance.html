@@ -26,8 +26,8 @@
                 <td><span class="bar"><i th:style="'width:' + ${r.percent()} + '%'"></i></span></td>
                 <td>
                     <span th:if="${r.total() == 0}" class="muted">No classes yet</span>
-                    <span th:if="${r.total() > 0 and !r.shortage()}">OK</span>
-                    <span th:if="${r.shortage()}" class="tag solid"
+                    <span th:if="${r.total() > 0 and !r.shortage()}" class="tag ok">OK</span>
+                    <span th:if="${r.shortage()}" class="tag danger"
                           th:text="'Shortage · attend next ' + ${r.classesNeeded()}"></span>
                 </td>
             </tr>

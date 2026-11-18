@@ -20,7 +20,7 @@
                 <td th:text="${c.name}"></td>
                 <td class="num" th:text="${c.credits}"></td>
                 <td th:text="${c.faculty != null ? c.faculty.name : 'TBA'}"></td>
-                <td><span th:if="${reg}" class="tag solid">Registered</span></td>
+                <td><span th:if="${reg}" class="tag ok">Registered</span></td>
                 <td>
                     <form th:if="${reg}" class="inline" method="post"
                           th:action="@{/student/registration/{id}/drop(id=${c.id})}"

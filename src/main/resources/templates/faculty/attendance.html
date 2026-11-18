@@ -18,7 +18,7 @@
 
     <p>
         <b th:text="${#temporals.format(date, 'EEEE, dd MMM yyyy')}"></b>
-        <span th:if="${taken}" class="tag">Already taken: editing</span>
+        <span th:if="${taken}" class="tag ok">Already taken: editing</span>
         <span th:unless="${taken}" class="tag">Not taken yet</span>
     </p>
 

@@ -13,7 +13,7 @@
 <body>
 
 <header th:fragment="header" class="topbar">
-    <a class="brand" th:href="@{/}">GMU ERP</a>
+    <a class="brand" th:href="@{/}"><span class="logo">G</span><span>GMU <b>ERP</b></span></a>
     <nav class="nav">
         <a th:href="@{/}">Home</a>
         <th:block sec:authorize="hasRole('STUDENT')">
