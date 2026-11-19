@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Profile · GMU ERP</title>
+    <link rel="stylesheet" href="../css/app.css">
+    <script src="../js/app.js" defer></script>
+<script src="../js/demo.js" data-root="../"></script>
+</head>
+<body>
+<header class="topbar">
+    <a class="brand" href="index.html"><span class="logo">G</span><span>GMU <b>ERP</b></span></a>
+    <nav class="nav">
+        <a href="index.html">Home</a>
+        
+            <a href="student/attendance.html">Attendance</a>
+            <a href="student/timetable.html">Time Table</a>
+            <a href="student/results.html">Results</a>
+            <a href="student/registration.html">Registration</a>
+        
+        
+        
+        
+            <a href="events.html">Events</a>
+            <a href="resources.html">Resources</a>
+        
+    </nav>
+    <div class="who">
+        <a href="profile.html">Hemanth S Palekar</a>
+        <form action="#" data-action="/logout" method="post"><input type="hidden" name="_csrf" value="SLkc7ZF_5iZvzcAVtpwwjTG_eVuqntgK7BOwfWvMQN2KqPMuLtwsjKMZ1ENCqPd007EE7ATcVDqf-u4niHfWHF2uc7_ozsUX"/><button class="small" type="submit">Log out</button></form>
+    </div>
+</header>
+<main class="container">
+    <div>
+    
+    
+</div>
+    <h1>Hemanth S Palekar</h1>
+    <div class="muted">U25CS001 · STUDENT</div>
+
+    <h2>Details</h2>
+    <div class="table-wrap">
+        <table style="max-width:560px">
+            
+                <tr><th>USN</th><td>U25CS001</td></tr>
+                <tr><th>Department</th><td>Computer Science &amp; Engineering</td></tr>
+                <tr><th>Semester / Section</th><td>3 / A</td></tr>
+                <tr><th>Email</th><td>u25cs001@student.gmu.ac.in</td></tr>
+                <tr><th>Phone</th><td></td></tr>
+            
+            
+            
+        </table>
+    </div>
+
+    <h2>Change password</h2>
+    <form action="#" data-action="/profile/password" method="post" style="max-width:320px"><input type="hidden" name="_csrf" value="SLkc7ZF_5iZvzcAVtpwwjTG_eVuqntgK7BOwfWvMQN2KqPMuLtwsjKMZ1ENCqPd007EE7ATcVDqf-u4niHfWHF2uc7_ozsUX"/>
+        <label>Current password</label><input type="password" name="current" required>
+        <label style="margin-top:10px">New password</label><input type="password" name="next" minlength="6" required>
+        <label style="margin-top:10px">Confirm new password</label><input type="password" name="confirm" minlength="6" required>
+        <div class="form-actions"><button class="primary" type="submit">Change password</button></div>
+    </form>
+</main>
+</body>
+</html>

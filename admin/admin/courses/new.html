@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Add course · GMU ERP</title>
+    <link rel="stylesheet" href="../../../css/app.css">
+    <script src="../../../js/app.js" defer></script>
+<script src="../../../js/demo.js" data-root="../../../"></script>
+</head>
+<body>
+<header class="topbar">
+    <a class="brand" href="../../index.html"><span class="logo">G</span><span>GMU <b>ERP</b></span></a>
+    <nav class="nav">
+        <a href="../../index.html">Home</a>
+        
+        
+        
+            <a href="../students.html">Students</a>
+            <a href="../faculty.html">Faculty</a>
+            <a href="../courses.html">Courses</a>
+            <a href="../timetable.html">Time Table</a>
+            <a href="../notices.html">Notices</a>
+        
+        
+            <a href="../../events.html">Events</a>
+            <a href="../../resources.html">Resources</a>
+        
+    </nav>
+    <div class="who">
+        <a href="../../profile.html">ERP Administrator</a>
+        <form action="#" data-action="/logout" method="post"><input type="hidden" name="_csrf" value="jZybR6k4llTI3MwYV6g-fnBmAKSsw7mFlUb8FiK-YYGJWuc4vK6tf5sN8GPluP17NYUKT0YALcbP8YqorX7OI0PcWeW8bNQM"/><button class="small" type="submit">Log out</button></form>
+    </div>
+</header>
+<main class="container">
+    <div>
+    
+    
+</div>
+    <h1>Add course</h1>
+
+    <form method="post" action="../courses.html"><input type="hidden" name="_csrf" value="jZybR6k4llTI3MwYV6g-fnBmAKSsw7mFlUb8FiK-YYGJWuc4vK6tf5sN8GPluP17NYUKT0YALcbP8YqorX7OI0PcWeW8bNQM"/>
+        <input type="hidden" name="id" value="">
+        <div class="form-grid">
+            <div><label>Course code</label><input name="code" value="" required></div>
+            <div><label>Course name</label><input name="name" value="" required></div>
+            <div><label>Credits</label><input type="number" min="1" max="6" name="credits" value="3"></div>
+            <div><label>Semester</label><input type="number" min="1" max="8" name="semester" value="1"></div>
+            <div>
+                <label>Department</label>
+                <select name="departmentId">
+                    <option value="">—</option>
+                    <option value="1">CSE</option>
+                    <option value="3">ECE</option>
+                    <option value="2">ISE</option>
+                </select>
+            </div>
+            <div>
+                <label>Faculty</label>
+                <select name="facultyId">
+                    <option value="">Unassigned</option>
+                    <option value="1">F001 · Dr. Ramesh K</option>
+                    <option value="2">F002 · Prof. Anitha S</option>
+                    <option value="3">F003 · Prof. Kiran M</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button class="primary" type="submit">Save</button>
+            <a class="btn" href="../courses.html">Cancel</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

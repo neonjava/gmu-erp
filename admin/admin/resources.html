@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Manage resources · GMU ERP</title>
+    <link rel="stylesheet" href="../../css/app.css">
+    <script src="../../js/app.js" defer></script>
+<script src="../../js/demo.js" data-root="../../"></script>
+</head>
+<body>
+<header class="topbar">
+    <a class="brand" href="../index.html"><span class="logo">G</span><span>GMU <b>ERP</b></span></a>
+    <nav class="nav">
+        <a href="../index.html">Home</a>
+        
+        
+        
+            <a href="students.html">Students</a>
+            <a href="faculty.html">Faculty</a>
+            <a href="courses.html">Courses</a>
+            <a href="timetable.html">Time Table</a>
+            <a href="notices.html">Notices</a>
+        
+        
+            <a href="../events.html">Events</a>
+            <a href="../resources.html">Resources</a>
+        
+    </nav>
+    <div class="who">
+        <a href="../profile.html">ERP Administrator</a>
+        <form action="#" data-action="/logout" method="post"><input type="hidden" name="_csrf" value="M_dcx8SbmJRmsA0rdT9ldliV7VL9-lgHH8R-ReOCLHsYZl7_AsVq__au_qNL1DxIFxJRR27zwDCeyGsqJ_xMcILgFB8tUG3L"/><button class="small" type="submit">Log out</button></form>
+    </div>
+</header>
+<main class="container">
+    <div>
+    
+    
+</div>
+    <div class="page-head">
+        <div>
+            <h1>Manage resources</h1>
+            <div class="muted">Room names should match the room used in the timetable (e.g. LAB-2) so class periods are blocked automatically.</div>
+        </div>
+        <a class="btn" href="../resources.html">View bookings</a>
+    </div>
+
+    <div class="table-wrap">
+        <table>
+            <tr><th>Name</th><th>Type</th><th>Location</th><th class="num">Capacity</th><th>Status</th><th></th></tr>
+            <tr>
+                <td><a href="../resources/1.html">LAB-1</a></td>
+                <td>Lab</td>
+                <td>CSE Block, 1st floor</td>
+                <td class="num">60</td>
+                <td><span class="tag ok">Open</span></td>
+                <td>
+                    <form class="inline" method="post" action="#" data-action="/admin/resources/1/toggle"><input type="hidden" name="_csrf" value="M_dcx8SbmJRmsA0rdT9ldliV7VL9-lgHH8R-ReOCLHsYZl7_AsVq__au_qNL1DxIFxJRR27zwDCeyGsqJ_xMcILgFB8tUG3L"/>
+                        <button class="small" type="submit">Disable</button>
+                    </form>
+                    <form class="inline" method="post" action="#" data-action="/admin/resources/1/delete" data-confirm="Delete LAB-1 and all its bookings?"><input type="hidden" name="_csrf" value="M_dcx8SbmJRmsA0rdT9ldliV7VL9-lgHH8R-ReOCLHsYZl7_AsVq__au_qNL1DxIFxJRR27zwDCeyGsqJ_xMcILgFB8tUG3L"/>
+                        <button class="small" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td><a href="../resources/2.html">LAB-2</a></td>
+                <td>Lab</td>
+                <td>CSE Block, 2nd floor</td>
+                <td class="num">60</td>
+                <td><span class="tag ok">Open</span></td>
+                <td>
+                    <form class="inline" method="post" action="#" data-action="/admin/resources/2/toggle"><input type="hidden" name="_csrf" value="M_dcx8SbmJRmsA0rdT9ldliV7VL9-lgHH8R-ReOCLHsYZl7_AsVq__au_qNL1DxIFxJRR27zwDCeyGsqJ_xMcILgFB8tUG3L"/>
+                        <button class="small" type="submit">Disable</button>
+                    </form>
+                    <form class="inline" method="post" action="#" data-action="/admin/resources/2/delete" data-confirm="Delete LAB-2 and all its bookings?"><input type="hidden" name="_csrf" value="M_dcx8SbmJRmsA0rdT9ldliV7VL9-lgHH8R-ReOCLHsYZl7_AsVq__au_qNL1DxIFxJRR27zwDCeyGsqJ_xMcILgFB8tUG3L"/>
+                        <button class="small" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td><a href="../resources/3.html">CR-201</a></td>
+                <td>Classroom</td>
+                <td>CSE Block, 2nd floor</td>
+                <td class="num">70</td>
+                <td><span class="tag ok">Open</span></td>
+                <td>
+                    <form class="inline" method="post" action="#" data-action="/admin/resources/3/toggle"><input type="hidden" name="_csrf" value="M_dcx8SbmJRmsA0rdT9ldliV7VL9-lgHH8R-ReOCLHsYZl7_AsVq__au_qNL1DxIFxJRR27zwDCeyGsqJ_xMcILgFB8tUG3L"/>
+                        <button class="small" type="submit">Disable</button>
+                    </form>
+                    <form class="inline" method="post" action="#" data-action="/admin/resources/3/delete" data-confirm="Delete CR-201 and all its bookings?"><input type="hidden" name="_csrf" value="M_dcx8SbmJRmsA0rdT9ldliV7VL9-lgHH8R-ReOCLHsYZl7_AsVq__au_qNL1DxIFxJRR27zwDCeyGsqJ_xMcILgFB8tUG3L"/>
+                        <button class="small" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td><a href="../resources/5.html">Main Auditorium</a></td>
+                <td>Seminar hall</td>
+                <td>Main Block</td>
+                <td class="num">600</td>
+                <td><span class="tag ok">Open</span></td>
+                <td>
+                    <form class="inline" method="post" action="#" data-action="/admin/resources/5/toggle"><input type="hidden" name="_csrf" value="M_dcx8SbmJRmsA0rdT9ldliV7VL9-lgHH8R-ReOCLHsYZl7_AsVq__au_qNL1DxIFxJRR27zwDCeyGsqJ_xMcILgFB8tUG3L"/>
+                        <button class="small" type="submit">Disable</button>
+                    </form>
+                    <form class="inline" method="post" action="#" data-action="/admin/resources/5/delete" data-confirm="Delete Main Auditorium and all its bookings?"><input type="hidden" name="_csrf" value="M_dcx8SbmJRmsA0rdT9ldliV7VL9-lgHH8R-ReOCLHsYZl7_AsVq__au_qNL1DxIFxJRR27zwDCeyGsqJ_xMcILgFB8tUG3L"/>
+                        <button class="small" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td><a href="../resources/4.html">Seminar Hall</a></td>
+                <td>Seminar hall</td>
+                <td>Admin Block, ground floor</td>
+                <td class="num">200</td>
+                <td><span class="tag ok">Open</span></td>
+                <td>
+                    <form class="inline" method="post" action="#" data-action="/admin/resources/4/toggle"><input type="hidden" name="_csrf" value="M_dcx8SbmJRmsA0rdT9ldliV7VL9-lgHH8R-ReOCLHsYZl7_AsVq__au_qNL1DxIFxJRR27zwDCeyGsqJ_xMcILgFB8tUG3L"/>
+                        <button class="small" type="submit">Disable</button>
+                    </form>
+                    <form class="inline" method="post" action="#" data-action="/admin/resources/4/delete" data-confirm="Delete Seminar Hall and all its bookings?"><input type="hidden" name="_csrf" value="M_dcx8SbmJRmsA0rdT9ldliV7VL9-lgHH8R-ReOCLHsYZl7_AsVq__au_qNL1DxIFxJRR27zwDCeyGsqJ_xMcILgFB8tUG3L"/>
+                        <button class="small" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td><a href="../resources/6.html">Arduino Kit Set</a></td>
+                <td>Equipment</td>
+                <td>IDEA Lab store</td>
+                <td class="num">10</td>
+                <td><span class="tag ok">Open</span></td>
+                <td>
+                    <form class="inline" method="post" action="#" data-action="/admin/resources/6/toggle"><input type="hidden" name="_csrf" value="M_dcx8SbmJRmsA0rdT9ldliV7VL9-lgHH8R-ReOCLHsYZl7_AsVq__au_qNL1DxIFxJRR27zwDCeyGsqJ_xMcILgFB8tUG3L"/>
+                        <button class="small" type="submit">Disable</button>
+                    </form>
+                    <form class="inline" method="post" action="#" data-action="/admin/resources/6/delete" data-confirm="Delete Arduino Kit Set and all its bookings?"><input type="hidden" name="_csrf" value="M_dcx8SbmJRmsA0rdT9ldliV7VL9-lgHH8R-ReOCLHsYZl7_AsVq__au_qNL1DxIFxJRR27zwDCeyGsqJ_xMcILgFB8tUG3L"/>
+                        <button class="small" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td><a href="../resources/8.html">DSLR Camera</a></td>
+                <td>Equipment</td>
+                <td>Media club room</td>
+                <td class="num">1</td>
+                <td><span class="tag ok">Open</span></td>
+                <td>
+                    <form class="inline" method="post" action="#" data-action="/admin/resources/8/toggle"><input type="hidden" name="_csrf" value="M_dcx8SbmJRmsA0rdT9ldliV7VL9-lgHH8R-ReOCLHsYZl7_AsVq__au_qNL1DxIFxJRR27zwDCeyGsqJ_xMcILgFB8tUG3L"/>
+                        <button class="small" type="submit">Disable</button>
+                    </form>
+                    <form class="inline" method="post" action="#" data-action="/admin/resources/8/delete" data-confirm="Delete DSLR Camera and all its bookings?"><input type="hidden" name="_csrf" value="M_dcx8SbmJRmsA0rdT9ldliV7VL9-lgHH8R-ReOCLHsYZl7_AsVq__au_qNL1DxIFxJRR27zwDCeyGsqJ_xMcILgFB8tUG3L"/>
+                        <button class="small" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td><a href="../resources/7.html">Projector Kit 1</a></td>
+                <td>Equipment</td>
+                <td>CSE department office</td>
+                <td class="num">1</td>
+                <td><span class="tag ok">Open</span></td>
+                <td>
+                    <form class="inline" method="post" action="#" data-action="/admin/resources/7/toggle"><input type="hidden" name="_csrf" value="M_dcx8SbmJRmsA0rdT9ldliV7VL9-lgHH8R-ReOCLHsYZl7_AsVq__au_qNL1DxIFxJRR27zwDCeyGsqJ_xMcILgFB8tUG3L"/>
+                        <button class="small" type="submit">Disable</button>
+                    </form>
+                    <form class="inline" method="post" action="#" data-action="/admin/resources/7/delete" data-confirm="Delete Projector Kit 1 and all its bookings?"><input type="hidden" name="_csrf" value="M_dcx8SbmJRmsA0rdT9ldliV7VL9-lgHH8R-ReOCLHsYZl7_AsVq__au_qNL1DxIFxJRR27zwDCeyGsqJ_xMcILgFB8tUG3L"/>
+                        <button class="small" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <h2>Add a resource</h2>
+    <form method="post" action="resources.html"><input type="hidden" name="_csrf" value="M_dcx8SbmJRmsA0rdT9ldliV7VL9-lgHH8R-ReOCLHsYZl7_AsVq__au_qNL1DxIFxJRR27zwDCeyGsqJ_xMcILgFB8tUG3L"/>
+        <div class="form-grid">
+            <div><label>Name</label><input name="name" required maxlength="60" placeholder="e.g. LAB-3"></div>
+            <div>
+                <label>Type</label>
+                <select name="type"><option value="LAB">Lab</option><option value="CLASSROOM">Classroom</option><option value="HALL">Seminar hall</option><option value="EQUIPMENT">Equipment</option></select>
+            </div>
+            <div><label>Location</label><input name="location" placeholder="e.g. CSE Block, 2nd floor"></div>
+            <div><label>Capacity (seats / units)</label><input type="number" name="capacity" min="0" value="0"></div>
+            <div style="grid-column:1/-1"><label>Description</label><input name="description" maxlength="500"></div>
+        </div>
+        <div class="form-actions"><button class="primary" type="submit">Add resource</button></div>
+    </form>
+</main>
+</body>
+</html>

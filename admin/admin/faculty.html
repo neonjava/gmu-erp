@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Faculty · GMU ERP</title>
+    <link rel="stylesheet" href="../../css/app.css">
+    <script src="../../js/app.js" defer></script>
+<script src="../../js/demo.js" data-root="../../"></script>
+</head>
+<body>
+<header class="topbar">
+    <a class="brand" href="../index.html"><span class="logo">G</span><span>GMU <b>ERP</b></span></a>
+    <nav class="nav">
+        <a href="../index.html">Home</a>
+        
+        
+        
+            <a href="students.html">Students</a>
+            <a href="faculty.html">Faculty</a>
+            <a href="courses.html">Courses</a>
+            <a href="timetable.html">Time Table</a>
+            <a href="notices.html">Notices</a>
+        
+        
+            <a href="../events.html">Events</a>
+            <a href="../resources.html">Resources</a>
+        
+    </nav>
+    <div class="who">
+        <a href="../profile.html">ERP Administrator</a>
+        <form action="#" data-action="/logout" method="post"><input type="hidden" name="_csrf" value="tY_RDwzzqF8mYfQzlEOOCCC1Z4cO7AxRAYrlm1V518wgqhllhL3nNz7GzmgLBcVQ9m66ORbTSuVt3j98ObLXrjQb76gVnCpR"/><button class="small" type="submit">Log out</button></form>
+    </div>
+</header>
+<main class="container">
+    <div>
+    
+    
+</div>
+    <div class="page-head">
+        <div><h1>Faculty</h1><div class="muted">3 shown</div></div>
+        <div class="toolbar">
+            <form class="toolbar" method="get" action="faculty.html">
+                <input name="q" value="" placeholder="Search name or ID">
+                <button type="submit">Search</button>
+            </form>
+            <a class="btn primary" href="faculty/new.html">+ Add faculty</a>
+        </div>
+    </div>
+    <div class="table-wrap">
+        <table>
+            <tr><th>Emp ID</th><th>Name</th><th>Designation</th><th>Dept</th><th>Email</th><th></th></tr>
+            <tr>
+                <td>F001</td>
+                <td>Dr. Ramesh K</td>
+                <td>Professor</td>
+                <td>CSE</td>
+                <td>f001@gmu.ac.in</td>
+                <td class="toolbar">
+                    <a class="btn small" href="faculty/1/edit.html">Edit</a>
+                    <form class="inline" method="post" action="#" data-action="/admin/faculty/1/reset-password" data-confirm="Reset password for F001?"><input type="hidden" name="_csrf" value="tY_RDwzzqF8mYfQzlEOOCCC1Z4cO7AxRAYrlm1V518wgqhllhL3nNz7GzmgLBcVQ9m66ORbTSuVt3j98ObLXrjQb76gVnCpR"/>
+                        <button class="small" type="submit">Reset password</button>
+                    </form>
+                    <form class="inline" method="post" action="#" data-action="/admin/faculty/1/delete" data-confirm="Delete F001?"><input type="hidden" name="_csrf" value="tY_RDwzzqF8mYfQzlEOOCCC1Z4cO7AxRAYrlm1V518wgqhllhL3nNz7GzmgLBcVQ9m66ORbTSuVt3j98ObLXrjQb76gVnCpR"/>
+                        <button class="small" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td>F002</td>
+                <td>Prof. Anitha S</td>
+                <td>Assistant Professor</td>
+                <td>CSE</td>
+                <td>f002@gmu.ac.in</td>
+                <td class="toolbar">
+                    <a class="btn small" href="faculty/2/edit.html">Edit</a>
+                    <form class="inline" method="post" action="#" data-action="/admin/faculty/2/reset-password" data-confirm="Reset password for F002?"><input type="hidden" name="_csrf" value="tY_RDwzzqF8mYfQzlEOOCCC1Z4cO7AxRAYrlm1V518wgqhllhL3nNz7GzmgLBcVQ9m66ORbTSuVt3j98ObLXrjQb76gVnCpR"/>
+                        <button class="small" type="submit">Reset password</button>
+                    </form>
+                    <form class="inline" method="post" action="#" data-action="/admin/faculty/2/delete" data-confirm="Delete F002?"><input type="hidden" name="_csrf" value="tY_RDwzzqF8mYfQzlEOOCCC1Z4cO7AxRAYrlm1V518wgqhllhL3nNz7GzmgLBcVQ9m66ORbTSuVt3j98ObLXrjQb76gVnCpR"/>
+                        <button class="small" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td>F003</td>
+                <td>Prof. Kiran M</td>
+                <td>Assistant Professor</td>
+                <td>CSE</td>
+                <td>f003@gmu.ac.in</td>
+                <td class="toolbar">
+                    <a class="btn small" href="faculty/3/edit.html">Edit</a>
+                    <form class="inline" method="post" action="#" data-action="/admin/faculty/3/reset-password" data-confirm="Reset password for F003?"><input type="hidden" name="_csrf" value="tY_RDwzzqF8mYfQzlEOOCCC1Z4cO7AxRAYrlm1V518wgqhllhL3nNz7GzmgLBcVQ9m66ORbTSuVt3j98ObLXrjQb76gVnCpR"/>
+                        <button class="small" type="submit">Reset password</button>
+                    </form>
+                    <form class="inline" method="post" action="#" data-action="/admin/faculty/3/delete" data-confirm="Delete F003?"><input type="hidden" name="_csrf" value="tY_RDwzzqF8mYfQzlEOOCCC1Z4cO7AxRAYrlm1V518wgqhllhL3nNz7GzmgLBcVQ9m66ORbTSuVt3j98ObLXrjQb76gVnCpR"/>
+                        <button class="small" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            
+        </table>
+    </div>
+</main>
+</body>
+</html>

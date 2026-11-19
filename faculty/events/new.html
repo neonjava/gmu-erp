@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>New event · GMU ERP</title>
+    <link rel="stylesheet" href="../../css/app.css">
+    <script src="../../js/app.js" defer></script>
+<script src="../../js/demo.js" data-root="../../"></script>
+</head>
+<body>
+<header class="topbar">
+    <a class="brand" href="../index.html"><span class="logo">G</span><span>GMU <b>ERP</b></span></a>
+    <nav class="nav">
+        <a href="../index.html">Home</a>
+        
+        
+            <a href="../faculty/courses.html">My Courses</a>
+            <a href="../faculty/timetable.html">My Time Table</a>
+        
+        
+        
+            <a href="../events.html">Events</a>
+            <a href="../resources.html">Resources</a>
+        
+    </nav>
+    <div class="who">
+        <a href="../profile.html">Dr. Ramesh K</a>
+        <form action="#" data-action="/logout" method="post"><input type="hidden" name="_csrf" value="pykpRfe92TRlQQ_1yVBy7ldViY0BK0EjHB8fzp48p_cu-OPinxxLdM7fuFJIJz3F_31G325gpLVnGCIOLycor6YJlsFLmtfa"/><button class="small" type="submit">Log out</button></form>
+    </div>
+</header>
+<main class="container">
+    <div>
+    
+    
+</div>
+    <h1>New event</h1>
+    <div class="muted" style="margin-bottom:18px">Students will see it under Events and can register until the event day.</div>
+
+    <form method="post" action="../events.html"><input type="hidden" name="_csrf" value="pykpRfe92TRlQQ_1yVBy7ldViY0BK0EjHB8fzp48p_cu-OPinxxLdM7fuFJIJz3F_31G325gpLVnGCIOLycor6YJlsFLmtfa"/>
+        <div class="form-grid">
+            <div style="grid-column:1/-1"><label>Title</label><input name="title" required maxlength="200"></div>
+            <div>
+                <label>Category</label>
+                <select name="category">
+                    <option value="TECHNICAL">Technical</option>
+                    <option value="WORKSHOP">Workshop</option>
+                    <option value="SEMINAR">Seminar</option>
+                    <option value="CULTURAL">Cultural</option>
+                    <option value="SPORTS">Sports</option>
+                </select>
+            </div>
+            <div><label>Venue</label><input name="venue" required placeholder="e.g. Seminar Hall"></div>
+            <div><label>Date</label><input type="date" name="date" min="2026-11-19" required></div>
+            <div><label>Start time</label><input type="time" name="startTime"></div>
+            <div><label>Seats (0 = no limit)</label><input type="number" name="capacity" min="0" value="0"></div>
+            <div style="grid-column:1/-1"><label>Description</label><textarea name="description" rows="4" maxlength="2000"></textarea></div>
+        </div>
+        <div class="form-actions">
+            <button class="primary" type="submit">Create event</button>
+            <a class="btn" href="../events.html">Cancel</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Edit student · GMU ERP</title>
+    <link rel="stylesheet" href="../../../../css/app.css">
+    <script src="../../../../js/app.js" defer></script>
+<script src="../../../../js/demo.js" data-root="../../../../"></script>
+</head>
+<body>
+<header class="topbar">
+    <a class="brand" href="../../../index.html"><span class="logo">G</span><span>GMU <b>ERP</b></span></a>
+    <nav class="nav">
+        <a href="../../../index.html">Home</a>
+        
+        
+        
+            <a href="../../students.html">Students</a>
+            <a href="../../faculty.html">Faculty</a>
+            <a href="../../courses.html">Courses</a>
+            <a href="../../timetable.html">Time Table</a>
+            <a href="../../notices.html">Notices</a>
+        
+        
+            <a href="../../../events.html">Events</a>
+            <a href="../../../resources.html">Resources</a>
+        
+    </nav>
+    <div class="who">
+        <a href="../../../profile.html">ERP Administrator</a>
+        <form action="#" data-action="/logout" method="post"><input type="hidden" name="_csrf" value="7X-9AJHk6Wi1bmQfHbMsbWuhakYfkuEBmMk8gv3hcyi58-KU3E2LOKPRj1-YClV8f54YXF3HRyR8oNIsoPEOt5yDS0yMxdGg"/><button class="small" type="submit">Log out</button></form>
+    </div>
+</header>
+<main class="container">
+    <div>
+    
+    
+</div>
+    <h1>Edit U25CS004</h1>
+    
+
+    <form method="post" action="../../students.html"><input type="hidden" name="_csrf" value="7X-9AJHk6Wi1bmQfHbMsbWuhakYfkuEBmMk8gv3hcyi58-KU3E2LOKPRj1-YClV8f54YXF3HRyR8oNIsoPEOt5yDS0yMxdGg"/>
+        <input type="hidden" name="id" value="4">
+        <div class="form-grid">
+            <div>
+                <label>USN</label>
+                <input name="usn" value="U25CS004" required readonly="readonly">
+            </div>
+            <div><label>Full name</label><input name="name" value="Chandana M" required></div>
+            <div><label>Email</label><input type="email" name="email" value="u25cs004@student.gmu.ac.in"></div>
+            <div><label>Phone</label><input name="phone" value=""></div>
+            <div>
+                <label>Department</label>
+                <select name="departmentId">
+                    <option value="">—</option>
+                    <option value="1" selected="selected">CSE · Computer Science &amp; Engineering</option>
+                    <option value="3">ECE · Electronics &amp; Communication Engineering</option>
+                    <option value="2">ISE · Information Science &amp; Engineering</option>
+                </select>
+            </div>
+            <div><label>Semester</label><input type="number" min="1" max="8" name="semester" value="3"></div>
+            <div><label>Section</label><input name="section" maxlength="5" value="A"></div>
+        </div>
+        <div class="form-actions">
+            <button class="primary" type="submit">Save</button>
+            <a class="btn" href="../../students.html">Cancel</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mark Attendance · GMU ERP</title>
+    <link rel="stylesheet" href="../../../../css/app.css">
+    <script src="../../../../js/app.js" defer></script>
+<script src="../../../../js/demo.js" data-root="../../../../"></script>
+</head>
+<body>
+<header class="topbar">
+    <a class="brand" href="../../../index.html"><span class="logo">G</span><span>GMU <b>ERP</b></span></a>
+    <nav class="nav">
+        <a href="../../../index.html">Home</a>
+        
+        
+            <a href="../../courses.html">My Courses</a>
+            <a href="../../timetable.html">My Time Table</a>
+        
+        
+        
+            <a href="../../../events.html">Events</a>
+            <a href="../../../resources.html">Resources</a>
+        
+    </nav>
+    <div class="who">
+        <a href="../../../profile.html">Dr. Ramesh K</a>
+        <form action="#" data-action="/logout" method="post"><input type="hidden" name="_csrf" value="EXTYAVknPKf7uu0-oA_wJiCI3cL3LzBNiF-dh-DvOYroIR8eKUG6MGBFXcHW3N8OliLEFxm98PqRHFNgu2eq5tjaCLyNQysm"/><button class="small" type="submit">Log out</button></form>
+    </div>
+</header>
+<main class="container">
+    <div>
+    
+    
+</div>
+    <div class="page-head">
+        <div>
+            <h1>Attendance · UE25CS2302</h1>
+            <div class="muted">Database Management Systems</div>
+        </div>
+        <form class="toolbar" method="get" action="attendance.html">
+            <input type="date" name="date" value="2026-11-19" max="2026-11-19">
+            <button type="submit">Open date</button>
+        </form>
+    </div>
+
+    <p>
+        <b>Thursday, 19 Nov 2026</b>
+        
+        <span class="tag">Not taken yet</span>
+    </p>
+
+    
+    <form method="post"
+          action="attendance.html"><input type="hidden" name="_csrf" value="EXTYAVknPKf7uu0-oA_wJiCI3cL3LzBNiF-dh-DvOYroIR8eKUG6MGBFXcHW3N8OliLEFxm98PqRHFNgu2eq5tjaCLyNQysm"/>
+        <input type="hidden" name="date" value="2026-11-19">
+        <div class="toolbar" style="margin-bottom:10px">
+            <button type="button" class="small" onclick="document.querySelectorAll('.p').forEach(c => c.checked = true)">All present</button>
+            <button type="button" class="small" onclick="document.querySelectorAll('.p').forEach(c => c.checked = false)">All absent</button>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <tr><th class="num">#</th><th>USN</th><th>Name</th><th>Present</th></tr>
+                <tr>
+                    <td class="num">1</td>
+                    <td>U25CS001</td>
+                    <td>Hemanth S Palekar</td>
+                    <td>
+                        <input class="p" type="checkbox" name="present" value="1" checked="checked">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="num">2</td>
+                    <td>U25CS002</td>
+                    <td>Aishwarya R</td>
+                    <td>
+                        <input class="p" type="checkbox" name="present" value="2" checked="checked">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="num">3</td>
+                    <td>U25CS003</td>
+                    <td>Bharath K</td>
+                    <td>
+                        <input class="p" type="checkbox" name="present" value="3" checked="checked">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="num">4</td>
+                    <td>U25CS004</td>
+                    <td>Chandana M</td>
+                    <td>
+                        <input class="p" type="checkbox" name="present" value="4" checked="checked">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="num">5</td>
+                    <td>U25CS005</td>
+                    <td>Darshan P</td>
+                    <td>
+                        <input class="p" type="checkbox" name="present" value="5" checked="checked">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="num">6</td>
+                    <td>U25CS006</td>
+                    <td>Keerthi N</td>
+                    <td>
+                        <input class="p" type="checkbox" name="present" value="6" checked="checked">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="num">7</td>
+                    <td>U25CS007</td>
+                    <td>Manoj G</td>
+                    <td>
+                        <input class="p" type="checkbox" name="present" value="7" checked="checked">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="num">8</td>
+                    <td>U25CS008</td>
+                    <td>Pooja V</td>
+                    <td>
+                        <input class="p" type="checkbox" name="present" value="8" checked="checked">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="num">9</td>
+                    <td>U25CS009</td>
+                    <td>Rahul B</td>
+                    <td>
+                        <input class="p" type="checkbox" name="present" value="9" checked="checked">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="num">10</td>
+                    <td>U25CS010</td>
+                    <td>Sneha T</td>
+                    <td>
+                        <input class="p" type="checkbox" name="present" value="10" checked="checked">
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="form-actions"><button class="primary" type="submit">Save attendance</button></div>
+    </form>
+</main>
+</body>
+</html>

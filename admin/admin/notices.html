@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Notices · GMU ERP</title>
+    <link rel="stylesheet" href="../../css/app.css">
+    <script src="../../js/app.js" defer></script>
+<script src="../../js/demo.js" data-root="../../"></script>
+</head>
+<body>
+<header class="topbar">
+    <a class="brand" href="../index.html"><span class="logo">G</span><span>GMU <b>ERP</b></span></a>
+    <nav class="nav">
+        <a href="../index.html">Home</a>
+        
+        
+        
+            <a href="students.html">Students</a>
+            <a href="faculty.html">Faculty</a>
+            <a href="courses.html">Courses</a>
+            <a href="timetable.html">Time Table</a>
+            <a href="notices.html">Notices</a>
+        
+        
+            <a href="../events.html">Events</a>
+            <a href="../resources.html">Resources</a>
+        
+    </nav>
+    <div class="who">
+        <a href="../profile.html">ERP Administrator</a>
+        <form action="#" data-action="/logout" method="post"><input type="hidden" name="_csrf" value="tROAAG_7fKk7aZgot6Ck58a3l5XHm_Go8-qjj6iGj9X0AMjnhCG2OF3OGp4WDalL1Y2Q1vDRuvekqcKFy9KRusnkt7HBNvvT"/><button class="small" type="submit">Log out</button></form>
+    </div>
+</header>
+<main class="container">
+    <div>
+    
+    
+</div>
+    <h1>Notices</h1>
+
+    <h2>Post a notice</h2>
+    <form method="post" action="notices.html" style="max-width:640px"><input type="hidden" name="_csrf" value="tROAAG_7fKk7aZgot6Ck58a3l5XHm_Go8-qjj6iGj9X0AMjnhCG2OF3OGp4WDalL1Y2Q1vDRuvekqcKFy9KRusnkt7HBNvvT"/>
+        <label>Title</label><input name="title" required>
+        <label style="margin-top:10px">Message</label><textarea name="body" rows="4"></textarea>
+        <div class="form-actions"><button class="primary" type="submit">Post</button></div>
+    </form>
+
+    <h2>All notices</h2>
+    
+    <div class="notice">
+        <b>CIE 2 timetable published</b>
+        <span class="muted small"> · 18 Nov 2026</span>
+        <form class="inline" method="post" action="#" data-action="/admin/notices/1/delete" data-confirm="Delete this notice?"><input type="hidden" name="_csrf" value="tROAAG_7fKk7aZgot6Ck58a3l5XHm_Go8-qjj6iGj9X0AMjnhCG2OF3OGp4WDalL1Y2Q1vDRuvekqcKFy9KRusnkt7HBNvvT"/>
+            · <button class="link-btn" type="submit">delete</button>
+        </form>
+        <div>CIE 2 for 3rd semester starts next Monday. Check the Time Table section for the schedule.</div>
+    </div>
+    <div class="notice">
+        <b>OOPS PBL proposal submission</b>
+        <span class="muted small"> · 16 Nov 2026</span>
+        <form class="inline" method="post" action="#" data-action="/admin/notices/2/delete" data-confirm="Delete this notice?"><input type="hidden" name="_csrf" value="tROAAG_7fKk7aZgot6Ck58a3l5XHm_Go8-qjj6iGj9X0AMjnhCG2OF3OGp4WDalL1Y2Q1vDRuvekqcKFy9KRusnkt7HBNvvT"/>
+            · <button class="link-btn" type="submit">delete</button>
+        </form>
+        <div>Groups must submit the Smart Campus PBL proposal to their course faculty by Friday.</div>
+    </div>
+    <div class="notice">
+        <b>Fee payment reminder</b>
+        <span class="muted small"> · 13 Nov 2026</span>
+        <form class="inline" method="post" action="#" data-action="/admin/notices/3/delete" data-confirm="Delete this notice?"><input type="hidden" name="_csrf" value="tROAAG_7fKk7aZgot6Ck58a3l5XHm_Go8-qjj6iGj9X0AMjnhCG2OF3OGp4WDalL1Y2Q1vDRuvekqcKFy9KRusnkt7HBNvvT"/>
+            · <button class="link-btn" type="submit">delete</button>
+        </form>
+        <div>Last date for odd-semester fee payment without fine is the 30th of this month.</div>
+    </div>
+</main>
+</body>
+</html>

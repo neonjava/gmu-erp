@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Login · GMU ERP</title>
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<div class="login-box">
+    <h1>GM University</h1>
+    <div class="muted">ERP · Sign in</div>
+    <div class="flash error" id="err" style="margin-top:16px;display:none">Wrong username or password</div>
+    <form id="login">
+        <div class="field">
+            <label for="username">Username (USN / Employee ID)</label>
+            <input id="username" autocomplete="username" required autofocus>
+        </div>
+        <div class="field">
+            <label for="password">Password</label>
+            <input id="password" type="password" autocomplete="current-password" required>
+        </div>
+        <div class="form-actions">
+            <button class="primary" type="submit" style="width:100%">Sign in</button>
+        </div>
+    </form>
+    <div class="demo">
+        Demo logins<br>
+        Admin: <b>admin</b> / admin123<br>
+        Faculty: <b>F001</b> / faculty123<br>
+        Student: <b>U25CS001</b> / student123
+        <div style="margin-top:10px">Static preview of the Java app: pages are real, saving is turned off.
+        Source: <a href="https://github.com/neonjava/gmu-erp">github.com/neonjava/gmu-erp</a></div>
+    </div>
+</div>
+<script>
+var users = { 'admin': ['admin123', 'admin/'], 'f001': ['faculty123', 'faculty/'], 'u25cs001': ['student123', 'student/'] };
+document.getElementById('login').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var u = users[document.getElementById('username').value.trim().toLowerCase()];
+    if (u && u[0] === document.getElementById('password').value) location.href = u[1] + 'index.html';
+    else document.getElementById('err').style.display = '';
+});
+</script>
+</body>
+</html>
