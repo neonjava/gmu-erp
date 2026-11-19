@@ -23,11 +23,15 @@ public class AccountService {
     private final RegistrationRepository registrations;
     private final AttendanceRepository attendance;
     private final MarkRepository marks;
+    private final EventRegistrationRepository eventRegistrations;
+    private final BookingRepository bookings;
     private final PasswordEncoder encoder;
 
     public AccountService(StudentRepository students, FacultyRepository faculty, CourseRepository courses,
                           UserRepository users, RegistrationRepository registrations,
-                          AttendanceRepository attendance, MarkRepository marks, PasswordEncoder encoder) {
+                          AttendanceRepository attendance, MarkRepository marks,
+                          EventRegistrationRepository eventRegistrations, BookingRepository bookings,
+                          PasswordEncoder encoder) {
         this.students = students;
         this.faculty = faculty;
         this.courses = courses;
@@ -35,6 +39,8 @@ public class AccountService {
         this.registrations = registrations;
         this.attendance = attendance;
         this.marks = marks;
+        this.eventRegistrations = eventRegistrations;
+        this.bookings = bookings;
         this.encoder = encoder;
     }
 
@@ -71,7 +77,9 @@ public class AccountService {
     @Transactional
     public void deleteStudent(Long id) {
         Student s = students.findById(id).orElseThrow(() -> new IllegalArgumentException("Student not found"));
+        users.findByStudent(s).ifPresent(bookings::deleteByBookedBy);
         users.deleteByStudent(s);
+        eventRegistrations.deleteByStudent(s);
         attendance.deleteByStudent(s);
         marks.deleteByStudent(s);
         registrations.deleteByStudent(s);
@@ -113,6 +121,7 @@ public class AccountService {
             c.setFaculty(null);
             courses.save(c);
         }
+        users.findByFaculty(f).ifPresent(bookings::deleteByBookedBy);
         users.deleteByFaculty(f);
         faculty.delete(f);
     }

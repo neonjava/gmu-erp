@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${resource.name})}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="container">
+    <div th:replace="~{fragments/layout :: flash}"></div>
+    <a class="small" th:href="@{/resources}">← All resources</a>
+
+    <div class="page-head" style="margin-top:8px">
+        <div>
+            <div class="card-tags"><span class="tag" th:text="${resource.type.label}"></span></div>
+            <h1 th:text="${resource.name}">LAB-1</h1>
+            <div class="muted">
+                <span th:text="${resource.location}"></span>
+                <span th:if="${resource.capacity > 0}"
+                      th:text="' · ' + (${resource.type.name() == 'EQUIPMENT'} ? (${resource.capacity} + (${resource.capacity == 1} ? ' unit' : ' units')) : (${resource.capacity} + ' seats'))"></span>
+            </div>
+            <div class="muted small" th:if="${resource.description != null}" th:text="${resource.description}"></div>
+        </div>
+        <form method="get" class="toolbar" th:action="@{/resources/{id}(id=${resource.id})}">
+            <input type="date" name="date" th:value="${date}" th:min="${today}" th:max="${maxDate}" onchange="this.form.submit()">
+            <button type="submit">Show</button>
+        </form>
+    </div>
+
+    <h2 th:text="${#temporals.format(date, 'EEEE, dd MMMM yyyy')}">Day</h2>
+    <div class="flash error" th:unless="${resource.active}">This resource is disabled for booking.</div>
+    <div class="muted" th:if="${date.dayOfWeek.name() == 'SUNDAY'}">Sunday: the campus is closed.</div>
+
+    <div class="table-wrap" th:unless="${date.dayOfWeek.name() == 'SUNDAY'}">
+        <table class="slots">
+            <tr><th>Period</th><th>Time</th><th>Status</th><th></th></tr>
+            <tr th:each="s : ${slots}" th:classappend="${s.free()} ? 'free'">
+                <td><b th:text="'P' + ${s.period()}"></b></td>
+                <td th:text="${s.time()}"></td>
+                <td>
+                    <span th:if="${s.classSlot() != null}" class="tag solid"
+                          th:text="'Class · ' + ${s.classSlot().course.code} + ' (' + ${s.classSlot().semester} + ${s.classSlot().section} + ')'"></span>
+                    <th:block th:if="${s.booking() != null}">
+                        <span class="tag danger">Booked</span>
+                        <span class="small" th:text="${s.booking().bookedBy.displayName} + ' · ' + ${s.booking().purpose}"></span>
+                    </th:block>
+                    <span th:if="${s.free()}" class="tag ok">Free</span>
+                    <span th:if="${s.started() and s.booking() == null and s.classSlot() == null}" class="muted small">Over</span>
+                </td>
+                <td>
+                    <form th:if="${s.free() and canBook}" method="post" class="toolbar"
+                          th:action="@{/resources/{id}/book(id=${resource.id})}">
+                        <input type="hidden" name="date" th:value="${date}">
+                        <input type="hidden" name="period" th:value="${s.period()}">
+                        <input name="purpose" placeholder="Purpose" required maxlength="120" style="width:200px">
+                        <button class="primary small" type="submit">Book</button>
+                    </form>
+                    <form th:if="${s.booking() != null and (s.booking().bookedBy.id == me.id or me.role.name() == 'ADMIN')}"
+                          method="post" class="inline" th:action="@{/resources/bookings/{id}/cancel(id=${s.booking().id})}"
+                          data-confirm="Cancel this booking?">
+                        <input type="hidden" name="back" th:value="'/resources/' + ${resource.id} + '?date=' + ${date}">
+                        <button class="link-btn" type="submit">cancel booking</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <p class="muted small" th:unless="${canBook}">You can view availability, but booking this resource needs a faculty member or admin.</p>
+</main>
+</body>
+</html>

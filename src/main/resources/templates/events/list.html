@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Events')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="container">
+    <div th:replace="~{fragments/layout :: flash}"></div>
+    <div class="page-head">
+        <div>
+            <h1>Events</h1>
+            <div class="muted">Workshops, fests, seminars and sports on campus</div>
+        </div>
+        <a class="btn primary" th:if="${canCreate}" th:href="@{/events/new}">+ New event</a>
+    </div>
+
+    <h2>Upcoming</h2>
+    <div th:if="${#lists.isEmpty(upcoming)}" class="muted">No upcoming events.</div>
+    <div class="cards">
+        <a class="card event" th:each="e : ${upcoming}" th:href="@{/events/{id}(id=${e.id})}"
+           th:with="t=${taken[e.id]}, full=${!e.unlimited and t >= e.capacity}">
+            <div class="datebox">
+                <b th:text="${#temporals.format(e.date, 'dd')}">12</b>
+                <span th:text="${#temporals.format(e.date, 'MMM')}">Nov</span>
+            </div>
+            <div class="card-body">
+                <div class="card-tags">
+                    <span class="tag" th:text="${e.category.label}">Technical</span>
+                    <span class="tag ok" th:if="${mine.contains(e.id)}">Registered</span>
+                    <span class="tag danger" th:if="${full and !mine.contains(e.id)}">Full</span>
+                </div>
+                <h3 th:text="${e.title}">Title</h3>
+                <div class="muted small">
+                    <span th:text="${#temporals.format(e.date, 'EEE')}"></span>
+                    <span th:if="${e.startTime != null}" th:text="' · ' + ${#temporals.format(e.startTime, 'hh:mm a')}"></span>
+                    <span th:text="' · ' + ${e.venue}"></span>
+                </div>
+                <div class="seats small">
+                    <span th:if="${e.unlimited}" th:text="${t} + ' registered · open to all'"></span>
+                    <th:block th:unless="${e.unlimited}">
+                        <span class="bar"><i th:style="'width:' + ${t * 100 / e.capacity} + '%'"></i></span>
+                        <span th:text="${full} ? 'No seats left' : (${e.capacity - t} + ' of ' + ${e.capacity} + ' seats left')"></span>
+                    </th:block>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <th:block th:unless="${#lists.isEmpty(past)}">
+        <h2>Past events</h2>
+        <div class="table-wrap">
+            <table>
+                <tr><th>Date</th><th>Event</th><th>Category</th><th>Venue</th><th class="num">Attendees</th></tr>
+                <tr th:each="e : ${past}">
+                    <td th:text="${#temporals.format(e.date, 'dd MMM yyyy')}"></td>
+                    <td><a th:href="@{/events/{id}(id=${e.id})}" th:text="${e.title}"></a></td>
+                    <td th:text="${e.category.label}"></td>
+                    <td th:text="${e.venue}"></td>
+                    <td class="num" th:text="${taken[e.id]}"></td>
+                </tr>
+            </table>
+        </div>
+    </th:block>
+</main>
+</body>
+</html>

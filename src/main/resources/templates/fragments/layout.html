@@ -33,6 +33,10 @@
             <a th:href="@{/admin/timetable}">Time Table</a>
             <a th:href="@{/admin/notices}">Notices</a>
         </th:block>
+        <th:block th:if="${me != null}">
+            <a th:href="@{/events}">Events</a>
+            <a th:href="@{/resources}">Resources</a>
+        </th:block>
     </nav>
     <div class="who" th:if="${me != null}">
         <a th:href="@{/profile}" th:text="${me.displayName}">Name</a>

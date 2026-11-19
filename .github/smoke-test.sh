@@ -27,12 +27,15 @@ check() {
 login admin admin123 /tmp/a.jar
 for p in / /notices /profile /admin/students "/admin/students?q=hem" /admin/students/new /admin/students/1/edit \
          /admin/faculty /admin/faculty/new /admin/faculty/1/edit /admin/courses /admin/courses/new /admin/courses/1/edit \
-         /admin/departments /admin/notices /admin/timetable; do check /tmp/a.jar "$p"; done
+         /admin/departments /admin/notices /admin/timetable /admin/resources \
+         /events /events/1 /events/new /resources /resources/1 /resources/4; do check /tmp/a.jar "$p"; done
 
 login F001 faculty123 /tmp/f.jar
-for p in / /faculty/courses /faculty/timetable /faculty/courses/1/attendance /faculty/courses/1/marks; do check /tmp/f.jar "$p"; done
+for p in / /faculty/courses /faculty/timetable /faculty/courses/1/attendance /faculty/courses/1/marks \
+         /events /events/1 /events/new /resources /resources/1; do check /tmp/f.jar "$p"; done
 
 login U25CS001 student123 /tmp/s.jar
-for p in / /student/attendance /student/timetable /student/results /student/registration /profile; do check /tmp/s.jar "$p"; done
+for p in / /student/attendance /student/timetable /student/results /student/registration /profile \
+         /events /events/1 /events/3 /resources /resources/1 /resources/4; do check /tmp/s.jar "$p"; done
 
 exit $FAIL

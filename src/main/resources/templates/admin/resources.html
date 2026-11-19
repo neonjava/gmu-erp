@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Manage resources')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="container">
+    <div th:replace="~{fragments/layout :: flash}"></div>
+    <div class="page-head">
+        <div>
+            <h1>Manage resources</h1>
+            <div class="muted">Room names should match the room used in the timetable (e.g. LAB-2) so class periods are blocked automatically.</div>
+        </div>
+        <a class="btn" th:href="@{/resources}">View bookings</a>
+    </div>
+
+    <div class="table-wrap">
+        <table>
+            <tr><th>Name</th><th>Type</th><th>Location</th><th class="num">Capacity</th><th>Status</th><th></th></tr>
+            <tr th:each="r : ${resources}">
+                <td><a th:href="@{/resources/{id}(id=${r.id})}" th:text="${r.name}"></a></td>
+                <td th:text="${r.type.label}"></td>
+                <td th:text="${r.location}"></td>
+                <td class="num" th:text="${r.capacity}"></td>
+                <td><span th:class="${r.active} ? 'tag ok' : 'tag danger'" th:text="${r.active} ? 'Open' : 'Disabled'"></span></td>
+                <td>
+                    <form class="inline" method="post" th:action="@{/admin/resources/{id}/toggle(id=${r.id})}">
+                        <button class="small" type="submit" th:text="${r.active} ? 'Disable' : 'Enable'"></button>
+                    </form>
+                    <form class="inline" method="post" th:action="@{/admin/resources/{id}/delete(id=${r.id})}"
+                          th:attr="data-confirm='Delete ' + ${r.name} + ' and all its bookings?'">
+                        <button class="small" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <h2>Add a resource</h2>
+    <form method="post" th:action="@{/admin/resources}">
+        <div class="form-grid">
+            <div><label>Name</label><input name="name" required maxlength="60" placeholder="e.g. LAB-3"></div>
+            <div>
+                <label>Type</label>
+                <select name="type"><option th:each="t : ${types}" th:value="${t}" th:text="${t.label}"></option></select>
+            </div>
+            <div><label>Location</label><input name="location" placeholder="e.g. CSE Block, 2nd floor"></div>
+            <div><label>Capacity (seats / units)</label><input type="number" name="capacity" min="0" value="0"></div>
+            <div style="grid-column:1/-1"><label>Description</label><input name="description" maxlength="500"></div>
+        </div>
+        <div class="form-actions"><button class="primary" type="submit">Add resource</button></div>
+    </form>
+</main>
+</body>
+</html>

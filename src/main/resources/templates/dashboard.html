@@ -78,6 +78,7 @@
             <a class="tile" th:href="@{/admin/departments}">Departments<small>Programs</small></a>
             <a class="tile" th:href="@{/admin/timetable}">Time Table<small>Edit by class</small></a>
             <a class="tile" th:href="@{/admin/notices}">Notices<small>Post news</small></a>
+            <a class="tile" th:href="@{/admin/resources}">Resources<small>Labs, rooms, equipment</small></a>
         </div>
     </section>
 
@@ -100,7 +101,9 @@
     <section data-group>
         <h2>Campus</h2>
         <div class="tiles">
-            <a class="tile soon" th:each="t : ${#strings.arraySplit('Calendar,Events,Campus Management,Lab Scanner,Mass Attendance,Bus Route', ',')}">
+            <a class="tile" th:href="@{/events}">Events<small>Register for events</small></a>
+            <a class="tile" th:href="@{/resources}">Resource Booking<small>Labs, halls, equipment</small></a>
+            <a class="tile soon" th:each="t : ${#strings.arraySplit('Calendar,Lab Scanner,Mass Attendance,Bus Route', ',')}">
                 <span th:text="${t}"></span><small>Coming soon</small></a>
         </div>
     </section>
@@ -121,6 +124,23 @@
                 <span th:text="${t}"></span><small>Coming soon</small></a>
         </div>
     </section>
+
+    <th:block th:unless="${#lists.isEmpty(nextEvents)}">
+        <h2>Upcoming events</h2>
+        <div class="cards">
+            <a class="card event" th:each="e : ${nextEvents}" th:href="@{/events/{id}(id=${e.id})}">
+                <div class="datebox">
+                    <b th:text="${#temporals.format(e.date, 'dd')}"></b>
+                    <span th:text="${#temporals.format(e.date, 'MMM')}"></span>
+                </div>
+                <div class="card-body">
+                    <div class="card-tags"><span class="tag" th:text="${e.category.label}"></span></div>
+                    <h3 th:text="${e.title}"></h3>
+                    <div class="muted small" th:text="${e.venue}"></div>
+                </div>
+            </a>
+        </div>
+    </th:block>
 
     <h2>Latest notices</h2>
     <div th:if="${#lists.isEmpty(notices)}" class="muted">No notices yet.</div>

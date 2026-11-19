@@ -13,5 +13,6 @@ public interface TimetableSlotRepository extends JpaRepository<TimetableSlot, Lo
     List<TimetableSlot> findBySemesterAndSection(int semester, String section);
     List<TimetableSlot> findByCourseIn(Collection<Course> courses);
     Optional<TimetableSlot> findBySemesterAndSectionAndDayOfWeekAndPeriod(int semester, String section, DayOfWeek day, int period);
+    List<TimetableSlot> findByRoomIgnoreCaseAndDayOfWeek(String room, DayOfWeek day);
     void deleteByCourse(Course course);
 }

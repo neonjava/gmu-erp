@@ -1,6 +1,8 @@
 # GMU ERP (Java)
 
-A rebuild of the GM University ERP in Java with Spring Boot. Version 0.1 covers phase 1: logins, students, faculty, courses, timetable, attendance, results and notices.
+A rebuild of the GM University ERP in Java with Spring Boot. It covers logins, students, faculty, courses, timetable, attendance, results, notices, an events portal and resource booking.
+
+**Live preview:** https://neonjava.github.io/gmu-erp/ (a read-only snapshot of the pages; run the app for the working version).
 
 ## Run it
 
@@ -48,6 +50,7 @@ Render builds the `Dockerfile` and starts the app. The free plan sleeps after 15
 - Manage departments and courses, and assign a faculty member to each course.
 - Build the timetable for each semester and section.
 - Post notices.
+- Manage bookable resources (labs, classrooms, seminar halls, equipment): add, disable or delete. See every upcoming booking and cancel any of them.
 
 **Faculty**
 - See their courses and weekly timetable.
@@ -61,6 +64,18 @@ Render builds the `Dockerfile` and starts the app. The free plan sleeps after 15
 - Results: CIE, SEE, total, grade and SGPA.
 - Register for or drop courses offered for their semester.
 
+**Events portal (everyone)**
+- Admin and faculty create events with a category, venue, date, time and seat limit (0 means no limit).
+- Students register or cancel. Registration closes when the event is full or over.
+- The organiser and admins see the participant list and can delete the event.
+
+**Resource booking (everyone)**
+- Each resource has a day view with periods P1–P6, bookable up to 30 days ahead (not Sundays or past periods).
+- A period can be booked only once (also enforced by a database constraint).
+- Rooms whose name matches a timetable room (e.g. `LAB-2`) are blocked during scheduled classes.
+- Students can book labs and equipment only, with at most 2 upcoming bookings; rooms and halls are booked by faculty.
+- Users cancel their own bookings; admins can cancel any.
+
 Everyone can see notices and change their password. The dashboard mirrors the app's sections; features not built yet show as "Coming soon".
 
 ## Code layout
@@ -69,7 +84,7 @@ Everyone can see notices and change their password. The dashboard mirrors the ap
 in.neonjava.erp
 ├── model      JPA entities. Person (abstract) → Student, Faculty
 ├── repo       Spring Data repositories
-├── service    Business rules: accounts, attendance %, grading/SGPA, timetable, demo data
+├── service    Business rules: accounts, attendance %, grading/SGPA, timetable, events, bookings, demo data
 ├── security   Spring Security config, login lookup, current user
 └── web        Controllers (student, faculty, admin/*)
 templates/     Thymeleaf pages
@@ -84,5 +99,5 @@ CIE 1 and CIE 2 are out of 25 each and SEE is out of 50, for a total out of 100.
 
 1. Exams: hall ticket PDF (eligible with 75% attendance and fees paid), exam seating, re-apply
 2. Finance: fee structure, online payment, receipts
-3. Quiz engine, calendar, events, grievances, feedback
+3. Quiz engine, calendar, grievances, feedback
 4. Community, bus routes, lab QR scanner, library link, REST API for the mobile app

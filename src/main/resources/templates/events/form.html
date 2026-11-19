@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('New event')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="container">
+    <div th:replace="~{fragments/layout :: flash}"></div>
+    <h1>New event</h1>
+    <div class="muted" style="margin-bottom:18px">Students will see it under Events and can register until the event day.</div>
+
+    <form method="post" th:action="@{/events}">
+        <div class="form-grid">
+            <div style="grid-column:1/-1"><label>Title</label><input name="title" required maxlength="200"></div>
+            <div>
+                <label>Category</label>
+                <select name="category">
+                    <option th:each="c : ${categories}" th:value="${c}" th:text="${c.label}"></option>
+                </select>
+            </div>
+            <div><label>Venue</label><input name="venue" required placeholder="e.g. Seminar Hall"></div>
+            <div><label>Date</label><input type="date" name="date" th:min="${today}" required></div>
+            <div><label>Start time</label><input type="time" name="startTime"></div>
+            <div><label>Seats (0 = no limit)</label><input type="number" name="capacity" min="0" value="0"></div>
+            <div style="grid-column:1/-1"><label>Description</label><textarea name="description" rows="4" maxlength="2000"></textarea></div>
+        </div>
+        <div class="form-actions">
+            <button class="primary" type="submit">Create event</button>
+            <a class="btn" th:href="@{/events}">Cancel</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

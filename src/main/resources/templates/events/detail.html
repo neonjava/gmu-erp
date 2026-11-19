@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head(${event.title})}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="container" th:with="full=${!event.unlimited and taken >= event.capacity}">
+    <div th:replace="~{fragments/layout :: flash}"></div>
+    <a class="small" th:href="@{/events}">← All events</a>
+
+    <section class="event-head">
+        <div class="datebox big">
+            <b th:text="${#temporals.format(event.date, 'dd')}">12</b>
+            <span th:text="${#temporals.format(event.date, 'MMM yyyy')}">Nov</span>
+        </div>
+        <div>
+            <div class="card-tags">
+                <span class="tag" th:text="${event.category.label}"></span>
+                <span class="tag ok" th:if="${registered}">You're registered</span>
+                <span class="tag danger" th:if="${event.over}">Event over</span>
+            </div>
+            <h1 th:text="${event.title}">Title</h1>
+            <div class="muted">
+                <span th:text="${#temporals.format(event.date, 'EEEE, dd MMMM yyyy')}"></span>
+                <span th:if="${event.startTime != null}" th:text="' · ' + ${#temporals.format(event.startTime, 'hh:mm a')}"></span>
+                <span th:text="' · ' + ${event.venue}"></span>
+            </div>
+            <div class="muted small" th:text="'Organised by ' + ${event.organizer}"></div>
+        </div>
+    </section>
+
+    <p class="event-desc" th:if="${event.description != null and !#strings.isEmpty(event.description)}" th:text="${event.description}"></p>
+
+    <div class="panel">
+        <div class="seats">
+            <span th:if="${event.unlimited}" th:text="${taken} + ' registered · no seat limit'"></span>
+            <th:block th:unless="${event.unlimited}">
+                <span class="bar"><i th:style="'width:' + ${taken * 100 / event.capacity} + '%'"></i></span>
+                <span th:text="${taken} + ' / ' + ${event.capacity} + ' seats taken'"></span>
+            </th:block>
+        </div>
+        <div class="toolbar" sec:authorize="hasRole('STUDENT')" th:unless="${event.over}">
+            <form th:if="${registered}" method="post" th:action="@{/events/{id}/cancel(id=${event.id})}" data-confirm="Cancel your registration?">
+                <button type="submit">Cancel registration</button>
+            </form>
+            <form th:unless="${registered}" method="post" th:action="@{/events/{id}/register(id=${event.id})}">
+                <button class="primary" type="submit" th:disabled="${full}" th:text="${full} ? 'Event full' : 'Register'">Register</button>
+            </form>
+        </div>
+        <form th:if="${canManage}" method="post" th:action="@{/events/{id}/delete(id=${event.id})}" data-confirm="Delete this event and all registrations?">
+            <button type="submit" class="small">Delete event</button>
+        </form>
+    </div>
+
+    <th:block th:if="${participants != null}">
+        <h2 th:text="'Participants (' + ${#lists.size(participants)} + ')'">Participants</h2>
+        <div th:if="${#lists.isEmpty(participants)}" class="muted">Nobody has registered yet.</div>
+        <div class="table-wrap" th:unless="${#lists.isEmpty(participants)}">
+            <table>
+                <tr><th>#</th><th>USN</th><th>Name</th><th>Sem / Sec</th><th>Registered on</th></tr>
+                <tr th:each="p, st : ${participants}">
+                    <td th:text="${st.count}"></td>
+                    <td th:text="${p.student.usn}"></td>
+                    <td th:text="${p.student.name}"></td>
+                    <td th:text="${p.student.semester} + ' ' + ${p.student.section}"></td>
+                    <td th:text="${#temporals.format(p.registeredAt, 'dd MMM, hh:mm a')}"></td>
+                </tr>
+            </table>
+        </div>
+    </th:block>
+</main>
+</body>
+</html>

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 /** Fills an empty database with sample data so every screen has something to show.
@@ -29,6 +30,10 @@ public class DemoDataSeeder implements SmartInitializingSingleton {
     private final AttendanceRepository attendance;
     private final MarkRepository marks;
     private final NoticeRepository notices;
+    private final EventRepository events;
+    private final EventRegistrationRepository eventRegs;
+    private final CampusResourceRepository resources;
+    private final BookingRepository bookings;
     private final AccountService accounts;
     private final TimetableService timetable;
     private final PasswordEncoder encoder;
@@ -37,7 +42,9 @@ public class DemoDataSeeder implements SmartInitializingSingleton {
                           UserRepository users, DepartmentRepository departments, CourseRepository courses,
                           RegistrationRepository registrations, AttendanceRepository attendance,
                           MarkRepository marks, NoticeRepository notices, AccountService accounts,
-                          TimetableService timetable, PasswordEncoder encoder) {
+                          TimetableService timetable, PasswordEncoder encoder,
+                          EventRepository events, EventRegistrationRepository eventRegs,
+                          CampusResourceRepository resources, BookingRepository bookings) {
         this.enabled = enabled;
         this.users = users;
         this.departments = departments;
@@ -49,6 +56,10 @@ public class DemoDataSeeder implements SmartInitializingSingleton {
         this.accounts = accounts;
         this.timetable = timetable;
         this.encoder = encoder;
+        this.events = events;
+        this.eventRegs = eventRegs;
+        this.resources = resources;
+        this.bookings = bookings;
     }
 
     @Override
@@ -138,6 +149,9 @@ public class DemoDataSeeder implements SmartInitializingSingleton {
         notices.save(dated(new Notice("Fee payment reminder",
                 "Last date for odd-semester fee payment without fine is the 30th of this month."), 6));
 
+        seedEvents(sts);
+        seedResources();
+
         log.info("Demo data ready. Logins: admin/admin123, F001/faculty123, U25CS001/student123");
     }
 
@@ -160,6 +174,82 @@ public class DemoDataSeeder implements SmartInitializingSingleton {
         c.setDepartment(d);
         c.setFaculty(f);
         return courses.save(c);
+    }
+
+    private void seedEvents(List<Student> sts) {
+        Event hack = event("CodeSprint 24-hour Hackathon", EventCategory.TECHNICAL, "Main Auditorium", 6, "09:00", 120,
+                "Build a working prototype in 24 hours in teams of up to 4. Food and Wi-Fi provided. Prizes for the top 3 teams.",
+                "Dr. Ramesh K", "F001");
+        Event workshop = event("Spring Boot Hands-on Workshop", EventCategory.WORKSHOP, "LAB-1", 3, "14:00", 40,
+                "Build and deploy a REST API with Spring Boot. Bring your laptop with JDK 21 installed.",
+                "Dr. Ramesh K", "F001");
+        Event resume = event("Resume Building Session", EventCategory.SEMINAR, "Seminar Hall", 2, "11:15", 5,
+                "Training and Placement cell session on writing a resume and preparing for internships.",
+                "ERP Administrator", "admin");
+        Event cricket = event("Inter-department Cricket League", EventCategory.SPORTS, "University Ground", 9, "08:00", 88,
+                "Eight teams, one trophy. Register as a player; captains will be contacted by the sports department.",
+                "Prof. Kiran M", "F003");
+        Event fest = event("Utsav Cultural Fest", EventCategory.CULTURAL, "Open Air Theatre", 12, "17:00", 0,
+                "Music, dance, drama and food stalls. Open to all students.",
+                "ERP Administrator", "admin");
+        Event lecture = event("AI in Healthcare: Guest Lecture", EventCategory.SEMINAR, "Seminar Hall", -5, "11:15", 150,
+                "Guest lecture on applications of machine learning in diagnostics.",
+                "Prof. Anitha S", "F002");
+
+        // Hemanth (sts[0]) is registered for the hackathon and the workshop; the resume session is full.
+        for (int i = 0; i < sts.size(); i++) {
+            if (i < 7) eventRegs.save(new EventRegistration(hack, sts.get(i)));
+            if (i < 4) eventRegs.save(new EventRegistration(workshop, sts.get(i)));
+            if (i >= 1 && i <= 5) eventRegs.save(new EventRegistration(resume, sts.get(i)));
+            if (i % 2 == 1) eventRegs.save(new EventRegistration(cricket, sts.get(i)));
+            if (i % 3 == 0) eventRegs.save(new EventRegistration(fest, sts.get(i)));
+            eventRegs.save(new EventRegistration(lecture, sts.get(i)));
+        }
+    }
+
+    private Event event(String title, EventCategory cat, String venue, int inDays, String time, int capacity,
+                        String description, String organizer, String createdBy) {
+        Event e = new Event(title, cat, venue, LocalDate.now().plusDays(inDays), LocalTime.parse(time), capacity);
+        e.setDescription(description);
+        e.setOrganizer(organizer);
+        e.setCreatedBy(createdBy);
+        return events.save(e);
+    }
+
+    private void seedResources() {
+        CampusResource lab1 = resources.save(new CampusResource("LAB-1", ResourceType.LAB, "CSE Block, 1st floor", 60,
+                "60 systems, Java 21, MySQL, Eclipse and VS Code"));
+        resources.save(new CampusResource("LAB-2", ResourceType.LAB, "CSE Block, 2nd floor", 60,
+                "60 systems, used for 3rd-semester labs"));
+        resources.save(new CampusResource("CR-201", ResourceType.CLASSROOM, "CSE Block, 2nd floor", 70,
+                "Smart board and projector"));
+        CampusResource hall = resources.save(new CampusResource("Seminar Hall", ResourceType.HALL, "Admin Block, ground floor", 200,
+                "Audio system, projector, stage"));
+        CampusResource audi = resources.save(new CampusResource("Main Auditorium", ResourceType.HALL, "Main Block", 600,
+                "Large events and convocation"));
+        CampusResource arduino = resources.save(new CampusResource("Arduino Kit Set", ResourceType.EQUIPMENT, "IDEA Lab store", 10,
+                "Arduino Uno kits with sensors, for PBL prototypes"));
+        resources.save(new CampusResource("Projector Kit 1", ResourceType.EQUIPMENT, "CSE department office", 1,
+                "Portable projector with HDMI cable"));
+        resources.save(new CampusResource("DSLR Camera", ResourceType.EQUIPMENT, "Media club room", 1,
+                "Canon DSLR with tripod, for event coverage"));
+
+        AppUser f1 = users.findByUsernameIgnoreCase("F001").orElseThrow();
+        AppUser f2 = users.findByUsernameIgnoreCase("F002").orElseThrow();
+        AppUser admin = users.findByUsernameIgnoreCase("admin").orElseThrow();
+        AppUser hemanth = users.findByUsernameIgnoreCase("U25CS001").orElseThrow();
+        bookings.save(new Booking(hall, workingDay(1), 2, f1, "OOPS guest talk for 3rd semester"));
+        bookings.save(new Booking(lab1, workingDay(1), 5, f2, "Data Structures extra lab session"));
+        bookings.save(new Booking(lab1, workingDay(2), 6, f1, "PBL review: Smart Campus project"));
+        bookings.save(new Booking(arduino, workingDay(2), 5, hemanth, "PBL prototype testing"));
+        bookings.save(new Booking(audi, workingDay(6), 1, admin, "CodeSprint Hackathon opening"));
+        bookings.save(new Booking(audi, workingDay(6), 2, admin, "CodeSprint Hackathon opening"));
+    }
+
+    /** The day n days from now, moved to Monday if it falls on a Sunday. */
+    private LocalDate workingDay(int n) {
+        LocalDate d = LocalDate.now().plusDays(n);
+        return d.getDayOfWeek() == DayOfWeek.SUNDAY ? d.plusDays(1) : d;
     }
 
     private Notice dated(Notice n, int daysAgo) {

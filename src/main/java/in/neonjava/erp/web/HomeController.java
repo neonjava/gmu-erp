@@ -6,6 +6,7 @@ import in.neonjava.erp.repo.*;
 import in.neonjava.erp.security.CurrentUserService;
 import in.neonjava.erp.service.AccountService;
 import in.neonjava.erp.service.AttendanceService;
+import in.neonjava.erp.service.EventService;
 import in.neonjava.erp.service.ResultService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,10 +29,12 @@ public class HomeController {
     private final AttendanceService attendanceService;
     private final ResultService resultService;
     private final AccountService accounts;
+    private final EventService events;
 
     public HomeController(CurrentUserService currentUser, NoticeRepository notices, StudentRepository students,
                           FacultyRepository faculty, CourseRepository courses, AttendanceService attendanceService,
-                          ResultService resultService, AccountService accounts) {
+                          ResultService resultService, AccountService accounts,
+                          EventService events) {
         this.currentUser = currentUser;
         this.notices = notices;
         this.students = students;
@@ -40,6 +43,7 @@ public class HomeController {
         this.attendanceService = attendanceService;
         this.resultService = resultService;
         this.accounts = accounts;
+        this.events = events;
     }
 
     @GetMapping("/login")
@@ -53,6 +57,7 @@ public class HomeController {
         int hour = LocalTime.now().getHour();
         model.addAttribute("greeting", hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening");
         model.addAttribute("notices", notices.findTop5ByOrderByPostedOnDescIdDesc());
+        model.addAttribute("nextEvents", events.nextFew());
 
         switch (me.getRole()) {
             case STUDENT -> {

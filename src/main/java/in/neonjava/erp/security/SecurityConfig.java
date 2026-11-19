@@ -2,6 +2,7 @@ package in.neonjava.erp.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,6 +19,9 @@ public class SecurityConfig {
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/faculty/**").hasRole("FACULTY")
                 .requestMatchers("/student/**").hasRole("STUDENT")
+                .requestMatchers("/events/new").hasAnyRole("ADMIN", "FACULTY")
+                .requestMatchers(HttpMethod.POST, "/events").hasAnyRole("ADMIN", "FACULTY")
+                .requestMatchers(HttpMethod.POST, "/events/*/register", "/events/*/cancel").hasRole("STUDENT")
                 .anyRequest().authenticated())
             .formLogin(form -> form
                 .loginPage("/login")

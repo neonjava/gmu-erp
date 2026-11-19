@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Resources')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="container">
+    <div th:replace="~{fragments/layout :: flash}"></div>
+    <div class="page-head">
+        <div>
+            <h1>Resources</h1>
+            <div class="muted">Book labs, rooms, halls and equipment by period, up to 30 days ahead</div>
+        </div>
+        <a class="btn" sec:authorize="hasRole('ADMIN')" th:href="@{/admin/resources}">Manage resources</a>
+    </div>
+    <div class="muted small" sec:authorize="hasRole('STUDENT')" style="margin-bottom:14px">
+        Students can book labs and equipment (up to 2 upcoming bookings). Rooms and halls are booked by faculty.
+    </div>
+
+    <div class="cards">
+        <a class="card" th:each="r : ${resources}" th:href="@{/resources/{id}(id=${r.id})}">
+            <div class="card-body">
+                <div class="card-tags">
+                    <span class="tag" th:text="${r.type.label}">Lab</span>
+                    <span class="tag danger" th:unless="${r.active}">Disabled</span>
+                </div>
+                <h3 th:text="${r.name}">LAB-1</h3>
+                <div class="muted small" th:text="${r.location}"></div>
+                <div class="muted small" th:if="${r.capacity > 0}"
+                     th:text="${r.type.name() == 'EQUIPMENT'} ? (${r.capacity} + (${r.capacity == 1} ? ' unit' : ' units')) : (${r.capacity} + ' seats')"></div>
+                <div class="small card-link">Check availability →</div>
+            </div>
+        </a>
+    </div>
+
+    <h2 sec:authorize="hasRole('ADMIN')">All upcoming bookings</h2>
+    <h2 sec:authorize="!hasRole('ADMIN')">My upcoming bookings</h2>
+    <div th:if="${#lists.isEmpty(bookings)}" class="muted">No upcoming bookings.</div>
+    <div class="table-wrap" th:unless="${#lists.isEmpty(bookings)}">
+        <table>
+            <tr><th>Date</th><th>Period</th><th>Resource</th><th>Purpose</th><th sec:authorize="hasRole('ADMIN')">Booked by</th><th></th></tr>
+            <tr th:each="b : ${bookings}">
+                <td th:text="${#temporals.format(b.date, 'EEE, dd MMM')}"></td>
+                <td th:text="'P' + ${b.period}"></td>
+                <td><a th:href="@{/resources/{id}(id=${b.resource.id}, date=${b.date})}" th:text="${b.resource.name}"></a></td>
+                <td th:text="${b.purpose}"></td>
+                <td sec:authorize="hasRole('ADMIN')" th:text="${b.bookedBy.displayName}"></td>
+                <td>
+                    <form class="inline" method="post" th:action="@{/resources/bookings/{id}/cancel(id=${b.id})}" data-confirm="Cancel this booking?">
+                        <button class="link-btn" type="submit">cancel</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+</main>
+</body>
+</html>
