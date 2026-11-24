@@ -49,15 +49,21 @@ export default function Dashboard() {
     ? `${me.student.usn}, ${me.student.department ?? ''}, semester ${me.student.semester} section ${me.student.section}`
     : me.faculty ? `${me.faculty.designation ?? 'Faculty'}, ${me.faculty.department ?? ''} (${me.faculty.empId})` : 'Administrator';
   const query = q.trim().toLowerCase();
+  // Until the numbers arrive, show the same shape (greeting from the clock, grey placeholders) so the page doesn't jump.
+  const hour = new Date().getHours();
+  const greeting = data?.greeting ?? (hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening');
+  const wantsToday = me.role !== 'ADMIN';
+  const placeholders = me.role === 'STUDENT' ? 3 : me.role === 'FACULTY' ? 2 : 5;
 
   return (
     <main className="container">
-      <section className={'hero' + (data?.today ? '' : ' solo')}>
+      <section className={'hero' + ((data ? data.today : wantsToday) ? '' : ' solo')}>
         <div className="hero-text">
-          <p className="greet">{data?.greeting ?? 'Hello'},</p>
+          <p className="greet">{greeting},</p>
           <h1 className="hero-name">{me.displayName}</h1>
           <p className="muted">{sub}</p>
           <dl className="figures">
+            {!data && Array.from({ length: placeholders }, (_, i) => <a key={i} className="sk-fig" aria-hidden="true"><dd /><dt /></a>)}
             {data?.stats.map(st => (
               <Go key={st.label} href={st.link} className={st.ring != null && st.ring < 75 ? 'low' : ''}>
                 <dd>{st.value}</dd><dt>{st.label}</dt>
@@ -66,6 +72,7 @@ export default function Dashboard() {
           </dl>
         </div>
         {data?.today && <Today classes={data.today} />}
+        {!data && wantsToday && <div className="today skeleton" aria-busy="true"><span className="sk" style={{ height: '1rem', width: '35%' }} /><span className="sk" style={{ height: '1.8rem', width: '70%', marginTop: '1.4rem' }} /><span className="sk" style={{ height: '1rem', width: '45%', marginTop: '.8rem' }} /></div>}
       </section>
 
       <div className="search">

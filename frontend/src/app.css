@@ -21,7 +21,7 @@
 /* Sheet backdrop (React version of the confirm sheet) */
 .sheet-backdrop {
   position: fixed; inset: 0; z-index: 40; display: flex; justify-content: center; align-items: flex-start;
-  background: rgba(120, 95, 80, .16); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px);
+  background: rgba(120, 95, 80, .2);
 }
 .sheet-backdrop .sheet { margin-top: 5.5rem; }
 
@@ -151,8 +151,7 @@ tr.pick { cursor: pointer; }
 /* A light block behind each group on the home page, so every group reads as one object */
 .directory section, .duo > div {
   padding: 1.1rem 1.4rem 1rem; margin-bottom: 1.4rem; border-radius: 1.5rem;
-  background: rgba(255, 255, 255, .42);
-  -webkit-backdrop-filter: saturate(160%) blur(16px); backdrop-filter: saturate(160%) blur(16px);
+  background: rgba(255, 255, 255, .56);
   border: 1px solid rgba(255, 255, 255, .8); border-bottom-color: rgba(160, 125, 100, .14);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, .75), 0 10px 28px -16px rgba(120, 85, 60, .22);
 }
@@ -252,7 +251,6 @@ i.holiday { background: var(--maroon); } i.exam { background: var(--gold); } i.a
   position: fixed; top: 5.4rem; left: 0; right: 0; margin: 0 auto; width: min(22rem, calc(100vw - 2rem));
   max-height: calc(100vh - 6.4rem); max-height: calc(100dvh - 6.4rem); overflow-y: auto; overscroll-behavior: contain;
 }
-@media (max-width: 720px) { .topbar ~ * .cal-pop, .cal-pop { top: 4.6rem; } }
 
 /* Static preview badge */
 .demo-badge {
@@ -260,3 +258,108 @@ i.holiday { background: var(--maroon); } i.exam { background: var(--gold); } i.a
   font-size: .8rem; color: var(--text-2); background: rgba(253, 249, 243, .95); border: 1px solid var(--border);
   box-shadow: var(--shadow);
 }
+
+/* =====================================================================================================
+   Phones (720px and narrower). Everything below the two helper rules only applies on a phone, so laptops
+   and desktops look exactly as before. Helpers are hidden by default and shown on phones.
+   ===================================================================================================== */
+.tt-days, .tt-time, .tt-none { display: none; }
+
+@media (max-width: 720px) {
+  /* Pages */
+  .hero { gap: 1.4rem; }
+  .hero-name { font-size: clamp(2rem, 9.5vw, 2.6rem); }
+  .figures { gap: .9rem 0; margin-top: 1.2rem; }
+  .figures a { margin-right: 1.1rem; padding-right: 1.1rem; }
+  .figures dd { font-size: 1.9rem; }
+  .figures dt { font-size: .8rem; }
+  .today { padding: 1.2rem 1.2rem 1.1rem; }
+  .directory, .duo { gap: 0; grid-template-columns: minmax(0, 1fr); }
+  .directory section, .duo > div { padding: 1rem 1.1rem .9rem; margin-bottom: 1rem; }
+  .search { margin-top: 1.6rem; }
+  .search input { height: 3rem; }
+  .page-head .hint { display: none; }
+  .page-head .stat { align-self: stretch; }
+  .profile-head { gap: 1rem; }
+  .profile-head h1 { font-size: 1.5rem; }
+  .avatar.big { width: 3.8rem; height: 3.8rem; font-size: 1.6rem; flex: none; }
+  .details { gap: .6rem 1rem; grid-template-columns: auto minmax(0, 1fr); }
+  .details dd { min-width: 0; overflow-wrap: anywhere; }
+  .first-run { padding-top: 0; }
+  .demo-badge { bottom: calc(5.6rem + env(safe-area-inset-bottom)); right: .6rem; left: .6rem; text-align: center; }
+
+  /* Tables turn into one card per row, so nothing runs off the side of the screen */
+  .table-wrap { overflow: visible; background: none; border: 0; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; border-radius: 0; }
+  .table-wrap table, .table-wrap tbody { display: block; width: 100%; }
+  .table-wrap thead { display: none; }
+  .table-wrap tbody tr {
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .55rem .8rem;
+    margin: 0 0 .75rem; padding: 1rem 1.1rem; border-radius: 1.3rem;
+    background: var(--glass); border: 1px solid var(--glass-line); border-bottom-color: var(--glass-edge); box-shadow: var(--glass-shadow);
+  }
+  .table-wrap tbody tr.flag { background: rgba(248, 235, 232, .85); }
+  .table-wrap td, .table-wrap tr:hover td, .table-wrap tr.flag td, .table-wrap tr.flag:hover td {
+    display: block; padding: 0; border: 0; background: transparent; text-align: left; min-width: 0;
+  }
+  .table-wrap td.num { text-align: left; }
+  .table-wrap td[data-label]::before {
+    content: attr(data-label); display: block; margin-bottom: .1rem; font-size: .72rem; font-weight: 600; color: var(--text-3);
+  }
+  .table-wrap td[data-code] { grid-column: 1 / -1; order: -2; font-size: .8rem; font-weight: 650; color: var(--maroon); }
+  .table-wrap td[data-title] { grid-column: 1 / -1; order: -1; font-size: 1.08rem; font-weight: 650; margin-top: -.35rem; }
+  .table-wrap td[data-title] .subject-link { font-weight: 650; }
+  .table-wrap td[data-wide] { grid-column: 1 / -1; }
+  .table-wrap td[data-span2] { grid-column: span 2; }
+  .table-wrap td[data-bar] { margin-top: -.15rem; }
+  .table-wrap td[data-bar] .bar { width: 100%; }
+  .table-wrap td[data-hide-empty]:empty { display: none; }
+  .table-wrap td[data-actions] { margin-top: .2rem; }
+  .table-wrap td[data-actions]:has(button.small:only-child) button { width: 100%; }
+  .table-wrap td[data-actions] .row-actions { max-width: none; margin: 0; flex-wrap: wrap; }
+  .table-wrap tr:last-child td { border: 0; }
+  /* Admin sign-in status and the like stay on one line */
+  .row-actions { gap: .45rem; }
+
+  /* Filter chips wrap onto a second line so none are hidden */
+  .segmented { display: flex; flex-wrap: wrap; max-width: 100%; border-radius: 1.4rem; }
+  .segmented button, .segmented a { padding: .45rem .8rem; }
+  .page-head .toolbar { width: 100%; }
+  .page-head .toolbar input { flex: 1; min-width: 0; }
+
+  /* Time table: pick a day, see that day's subjects as a list */
+  .tt-days { display: flex; gap: .3rem; padding: .3rem; margin: 0 0 .9rem; border-radius: 1.4rem;
+    background: var(--glass); border: 1px solid var(--glass-line); box-shadow: var(--glass-shadow); }
+  .tt-days button { position: relative; flex: 1; min-width: 0; padding: .55rem 0; border: 0; border-radius: 1.1rem; background: transparent; box-shadow: none; color: var(--text-2); font-weight: 650; }
+  .tt-days button.on { background: #fff; color: var(--maroon); box-shadow: 0 1px 4px rgba(120, 85, 60, .18); }
+  .tt-days button i { position: absolute; top: .3rem; right: 28%; width: .35rem; height: .35rem; border-radius: 50%; background: var(--gold); }
+  .tt-grid { display: flex; flex-direction: column; gap: .6rem; padding: 0; min-width: 0; }
+  .tt-h, .tt-day, .tt-empty { display: none; }
+  .tt-grid[data-sel="MONDAY"] > [data-day]:not([data-day="MONDAY"]),
+  .tt-grid[data-sel="TUESDAY"] > [data-day]:not([data-day="TUESDAY"]),
+  .tt-grid[data-sel="WEDNESDAY"] > [data-day]:not([data-day="WEDNESDAY"]),
+  .tt-grid[data-sel="THURSDAY"] > [data-day]:not([data-day="THURSDAY"]),
+  .tt-grid[data-sel="FRIDAY"] > [data-day]:not([data-day="FRIDAY"]),
+  .tt-grid[data-sel="SATURDAY"] > [data-day]:not([data-day="SATURDAY"]) { display: none; }
+  .tt-slot { min-height: 0; padding: .9rem 1.1rem; border-radius: 1.3rem; background: var(--glass); border: 1px solid var(--glass-line); box-shadow: var(--glass-shadow); }
+  .tt-slot .tt-time { display: block; font-style: normal; font-size: .78rem; font-weight: 650; color: var(--text-2); margin-bottom: .2rem; }
+  .tt-slot small { margin-top: .3rem; padding-top: 0; }
+  .tt-none { display: block; margin: .5rem 0; color: var(--text-2); }
+
+  /* Pop-ups */
+  .sheet-backdrop { padding: .75rem; }
+  .brief { width: 100%; }
+  .brief-body { padding: 1.3rem 1.2rem 1.1rem; }
+  .facts div { grid-template-columns: 4.6rem 1fr; }
+  .facts dd:has(.meet) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .standing { gap: .8rem; }
+  .cal-pop { top: 4.6rem; width: calc(100vw - 1rem); max-height: calc(100dvh - 5.4rem); }
+  .sheet { padding: 1.3rem 1.2rem 1.1rem; }
+  .sheet .form-actions { flex-wrap: wrap; }
+}
+
+/* While the home page loads it already has its final shape, so nothing jumps when the numbers arrive */
+.today.skeleton { min-height: 17.5rem; }
+.today.skeleton .sk { display: block; border-radius: .6rem; background: rgba(160, 125, 100, .12); }
+.figures a.sk-fig { pointer-events: none; }
+.figures a.sk-fig dd { width: 3.5rem; height: 2.1rem; border-radius: .5rem; background: rgba(160, 125, 100, .12); margin-bottom: .3rem; }
+.figures a.sk-fig dt { width: 5rem; height: .8rem; border-radius: .4rem; background: rgba(160, 125, 100, .1); }

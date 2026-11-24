@@ -82,17 +82,17 @@ export default function AdminStudents() {
         <tbody>
           {rows.map(a => (
             <tr key={a.student.id}>
-              <td>{a.student.usn}</td>
-              <td>{a.student.name}{a.student.email && <div className="muted small">{a.student.email}</div>}</td>
-              <td>{a.student.department}</td>
-              <td className="num">{a.student.semester}</td>
-              <td>{a.student.section}</td>
-              <td>{a.status === 'None' ? <span className="muted">No account</span>
+              <td data-code>{a.student.usn}</td>
+              <td data-title>{a.student.name}{a.student.email && <div className="muted small">{a.student.email}</div>}</td>
+              <td data-label="Dept">{a.student.department}</td>
+              <td className="num" data-label="Sem">{a.student.semester}</td>
+              <td data-label="Sec">{a.student.section}</td>
+              <td data-wide data-label="Sign-in">{a.status === 'None' ? <span className="muted">No account</span>
                 : <span className={'status ' + a.status.toLowerCase()}
                     title={a.locked && a.lockedUntil ? 'Unlocks at ' + fmtDate(a.lockedUntil, { hour: '2-digit', minute: '2-digit' }) : undefined}>
                     {STATUS[a.status]}</span>}</td>
-              <td className="muted small">{a.lastLogin ? fmtDate(a.lastLogin, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : 'Never'}</td>
-              <td>
+              <td className="muted small" data-wide data-label="Last signed in">{a.lastLogin ? fmtDate(a.lastLogin, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : 'Never'}</td>
+              <td data-wide data-actions>
                 <div className="row-actions" aria-busy={busy === a.student.id}>
                   <Go className="btn small" href={`/admin/students/${a.student.id}/edit`}>Edit</Go>
                   {a.status !== 'None' && <>
@@ -111,7 +111,7 @@ export default function AdminStudents() {
               </td>
             </tr>
           ))}
-          {data && !rows.length && <tr><td colSpan={8} className="muted">No students match. Try another search or filter.</td></tr>}
+          {data && !rows.length && <tr><td colSpan={8} data-wide className="muted">No students match. Try another search or filter.</td></tr>}
         </tbody>
       </table></div>
     </main>

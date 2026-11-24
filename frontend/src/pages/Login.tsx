@@ -2,7 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { api, ApiError, ASSET, DEMO as PREVIEW } from '../api';
 import { useAuth } from '../auth';
-import { clearCache } from '../hooks';
+import { clearCache, prefetch } from '../hooks';
 import Leaves, { leavesWanted } from '../ui/Leaves';
 
 const DEMO = [
@@ -41,6 +41,7 @@ export default function Login() {
       if (form.remember) body['remember-me'] = 'on';
       await api('/login', { method: 'POST', form: body });
       clearCache();
+      prefetch('/api/dashboard');   // start loading the home page while the screen changes
       await refresh();
       navigate('/', { replace: true });
     } catch (err) {
