@@ -24,6 +24,8 @@ public class ErpUserDetailsService implements UserDetailsService {
         return User.withUsername(u.getUsername())
                 .password(u.getPassword())
                 .roles(u.getRole().name())
+                .disabled(!u.isEnabled())
+                .accountLocked(u.isLocked())
                 .build();
     }
 }

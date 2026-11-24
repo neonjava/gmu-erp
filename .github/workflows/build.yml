@@ -19,7 +19,7 @@ jobs:
       - name: Start app and check pages
         run: |
           java -jar target/gmu-erp-*.jar > app.log 2>&1 &
-          for i in $(seq 1 60); do curl -sf http://localhost:8080/login > /dev/null && break; sleep 2; done
+          for i in $(seq 1 60); do curl -sf http://localhost:8080/app/ > /dev/null && break; sleep 2; done
           bash .github/smoke-test.sh
       - name: App log
         if: always()

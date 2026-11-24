@@ -1,5 +1,7 @@
 package in.neonjava.erp.web.admin;
 
+import in.neonjava.erp.model.AppUser;
+import in.neonjava.erp.model.Role;
 import in.neonjava.erp.model.Student;
 import in.neonjava.erp.repo.DepartmentRepository;
 import in.neonjava.erp.repo.StudentRepository;
@@ -9,6 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.*;
+import java.util.function.Consumer;
 
 @Controller
 @RequestMapping("/admin/students")
@@ -25,15 +30,6 @@ public class StudentAdminController {
         this.departments = departments;
         this.users = users;
         this.accounts = accounts;
-    }
-
-    @GetMapping
-    public String list(@RequestParam(required = false) String q, Model model) {
-        model.addAttribute("q", q);
-        model.addAttribute("students", q == null || q.isBlank()
-                ? students.findAllByOrderByUsn()
-                : students.findByNameContainingIgnoreCaseOrUsnContainingIgnoreCaseOrderByUsn(q.trim(), q.trim()));
-        return "admin/students";
     }
 
     @GetMapping("/new")
@@ -74,28 +70,13 @@ public class StudentAdminController {
         s.setSection(section.trim().toUpperCase());
         try {
             Student saved = accounts.saveStudent(s);
-            ra.addFlashAttribute("success", id == null
-                    ? "Added " + saved.getUsn() + ". Login: " + saved.getUsn() + " / " + AccountService.DEFAULT_STUDENT_PASSWORD
-                    : "Updated " + saved.getUsn());
-            return "redirect:/admin/students";
+            String msg = id == null
+                    ? "Added " + saved.getUsn() + ". They sign in with " + saved.getUsn() + " / " + AccountService.DEFAULT_STUDENT_PASSWORD
+                    : "Updated " + saved.getUsn();
+            return "redirect:/app/admin/students?msg=" + java.net.URLEncoder.encode(msg, java.nio.charset.StandardCharsets.UTF_8);
         } catch (IllegalArgumentException e) {
             ra.addFlashAttribute("error", e.getMessage());
             return id == null ? "redirect:/admin/students/new" : "redirect:/admin/students/" + id + "/edit";
         }
-    }
-
-    @PostMapping("/{id}/delete")
-    public String delete(@PathVariable Long id, RedirectAttributes ra) {
-        accounts.deleteStudent(id);
-        ra.addFlashAttribute("success", "Student deleted");
-        return "redirect:/admin/students";
-    }
-
-    @PostMapping("/{id}/reset-password")
-    public String resetPassword(@PathVariable Long id, RedirectAttributes ra) {
-        Student s = students.findById(id).orElseThrow();
-        users.findByUsernameIgnoreCase(s.getUsn()).ifPresent(accounts::resetPassword);
-        ra.addFlashAttribute("success", "Password for " + s.getUsn() + " reset to " + AccountService.DEFAULT_STUDENT_PASSWORD);
-        return "redirect:/admin/students";
     }
 }

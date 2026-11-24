@@ -58,6 +58,7 @@ public class AccountService {
             Student saved = students.save(s);
             AppUser u = new AppUser(saved.getUsn(), encoder.encode(DEFAULT_STUDENT_PASSWORD), Role.STUDENT, saved.getName());
             u.setStudent(saved);
+            u.setMustChangePassword(true);
             users.save(u);
             return saved;
         }
@@ -100,6 +101,7 @@ public class AccountService {
             Faculty saved = faculty.save(f);
             AppUser u = new AppUser(saved.getEmpId(), encoder.encode(DEFAULT_FACULTY_PASSWORD), Role.FACULTY, saved.getName());
             u.setFaculty(saved);
+            u.setMustChangePassword(true);
             users.save(u);
             return saved;
         }
@@ -133,14 +135,34 @@ public class AccountService {
         if (!encoder.matches(current, user.getPassword())) throw new IllegalArgumentException("Current password is wrong");
         if (next == null || next.length() < 6) throw new IllegalArgumentException("New password must be at least 6 characters");
         if (!next.equals(confirm)) throw new IllegalArgumentException("New passwords do not match");
+        if (encoder.matches(next, user.getPassword())) throw new IllegalArgumentException("Pick a password different from the current one");
         user.setPassword(encoder.encode(next));
+        user.setMustChangePassword(false);
         users.save(user);
     }
 
+    /** Back to the default password; the person must set their own at the next sign-in. Also unlocks. */
     @Transactional
     public void resetPassword(AppUser user) {
         String pwd = user.getRole() == Role.FACULTY ? DEFAULT_FACULTY_PASSWORD : DEFAULT_STUDENT_PASSWORD;
         user.setPassword(encoder.encode(pwd));
+        user.setMustChangePassword(true);
+        user.setFailedLogins(0);
+        user.setLockedUntil(null);
+        users.save(user);
+    }
+
+    @Transactional
+    public void setEnabled(AppUser user, boolean enabled) {
+        if (user.getRole() == Role.ADMIN) throw new IllegalArgumentException("The admin account can't be turned off");
+        user.setEnabled(enabled);
+        users.save(user);
+    }
+
+    @Transactional
+    public void unlock(AppUser user) {
+        user.setFailedLogins(0);
+        user.setLockedUntil(null);
         users.save(user);
     }
 }

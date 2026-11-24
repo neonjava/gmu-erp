@@ -151,8 +151,25 @@ public class DemoDataSeeder implements SmartInitializingSingleton {
 
         seedEvents(sts);
         seedResources();
+        seedLoginStatus();
 
         log.info("Demo data ready. Logins: admin/admin123, F001/faculty123, U25CS001/student123");
+    }
+
+    /** Demo accounts can sign in straight away; two students show the other states in the admin list. */
+    private void seedLoginStatus() {
+        java.time.LocalDateTime now = java.time.LocalDateTime.now();
+        int i = 0;
+        for (AppUser u : users.findAll()) {
+            u.setMustChangePassword(false);
+            if (u.getRole() != Role.ADMIN) u.setLastLogin(now.minusHours(3 + 7L * i++));
+            switch (u.getUsername()) {
+                case "U25CS009" -> { u.setMustChangePassword(true); u.setLastLogin(null); }   // new: must set a password
+                case "U25CS010" -> u.setEnabled(false);                                      // turned off by the admin
+                default -> { }
+            }
+            users.save(u);
+        }
     }
 
     private Faculty faculty(String empId, String name, String designation, Department d) {

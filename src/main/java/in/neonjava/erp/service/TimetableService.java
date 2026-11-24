@@ -27,6 +27,29 @@ public class TimetableService {
         this.slots = slots;
     }
 
+    /** One class on today's schedule, for the dashboard's "Today" widget. */
+    public record TodayClass(int period, String time, String code, String name, String room, String group) {}
+
+    /** Today's classes for a semester and section, in period order. */
+    public List<TodayClass> todayFor(int semester, String section) {
+        return today(slots.findBySemesterAndSection(semester, section));
+    }
+
+    /** Today's classes across the given courses (a faculty member's timetable). */
+    public List<TodayClass> todayFor(Collection<Course> courses) {
+        return courses.isEmpty() ? List.of() : today(slots.findByCourseIn(courses));
+    }
+
+    private List<TodayClass> today(List<TimetableSlot> all) {
+        DayOfWeek d = java.time.LocalDate.now().getDayOfWeek();
+        return all.stream()
+                .filter(t -> t.getDayOfWeek() == d)
+                .sorted(Comparator.comparingInt(TimetableSlot::getPeriod))
+                .map(t -> new TodayClass(t.getPeriod(), PERIOD_TIMES.get(t.getPeriod() - 1), t.getCourse().getCode(),
+                        t.getCourse().getName(), t.getRoom(), t.getSemester() + t.getSection()))
+                .toList();
+    }
+
     /** Grid keyed by "DAY-period", e.g. "MONDAY-1". */
     public Map<String, TimetableSlot> grid(int semester, String section) {
         return slots.findBySemesterAndSection(semester, section).stream()
