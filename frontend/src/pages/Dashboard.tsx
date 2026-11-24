@@ -49,9 +49,10 @@ export default function Dashboard() {
     ? `${me.student.usn}, ${me.student.department ?? ''}, semester ${me.student.semester} section ${me.student.section}`
     : me.faculty ? `${me.faculty.designation ?? 'Faculty'}, ${me.faculty.department ?? ''} (${me.faculty.empId})` : 'Administrator';
   const query = q.trim().toLowerCase();
-  // Until the numbers arrive, show the same shape (greeting from the clock, grey placeholders) so the page doesn't jump.
+  // The greeting follows the visitor's own clock (the server may be in another time zone, and the preview's data is old).
+  // Until the numbers arrive the page already has its final shape, with grey placeholders, so nothing jumps.
   const hour = new Date().getHours();
-  const greeting = data?.greeting ?? (hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening');
+  const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
   const wantsToday = me.role !== 'ADMIN';
   const placeholders = me.role === 'STUDENT' ? 3 : me.role === 'FACULTY' ? 2 : 5;
 
