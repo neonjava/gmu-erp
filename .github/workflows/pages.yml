@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: read
+  actions: read      # lets the deploy step find the uploaded preview
   pages: write
   id-token: write
 
