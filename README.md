@@ -2,7 +2,7 @@
 
 A rebuild of the GM University ERP in Java with Spring Boot. It covers logins, students, faculty, courses, timetable, attendance, results, notices, an events portal and resource booking.
 
-**Live preview:** https://neonjava.github.io/gmu-erp/ (a read-only snapshot of the pages; run the app for the working version).
+**Live preview:** https://neonjava.github.io/gmu-erp/ (the real screens on saved sample data. Saving is turned off; run the app for the working version).
 
 ## Run it
 
@@ -12,7 +12,7 @@ You need **Java 21** and **Maven 3.9+**.
 mvn spring-boot:run
 ```
 
-Open http://localhost:8080. On first start the app creates a database in `./data` and fills it with demo data.
+Open http://localhost:8080 (it opens the app at `/app`). The first build also builds the React frontend and downloads its own Node, so it takes a minute longer; after that it is quick. On first start the app creates a database in `./data` and fills it with demo data.
 
 | Role    | Username   | Password    |
 |---------|------------|-------------|
@@ -21,6 +21,21 @@ Open http://localhost:8080. On first start the app creates a database in `./data
 | Student | `U25CS001` | `student123`|
 
 To start again from scratch, stop the app and delete the `data/` folder.
+
+## Sign-in and accounts
+
+- New accounts start on the default password and must choose their own at first sign-in.
+- Five wrong passwords in a row lock the account for 15 minutes. The admin can unlock it sooner.
+- The admin can reset a password, turn sign-in off or on, or delete a student (Students page, with a filter by sign-in status).
+- "Keep me signed in" lasts a week.
+
+## Frontend
+
+The interface is a **React + TypeScript** app (Vite, React Router, Framer Motion, Lucide icons, react-snowfall for the falling leaves) in `frontend/`. It talks to the Spring Boot backend through JSON endpoints under `/api`. The design is frosted glass in the GMU maroon and gold, with a floating "island" bar.
+
+Pages already in React: sign-in, home, profile and password, notices, the student pages, and the admin Students page. The other pages (faculty, admin courses/faculty/timetable, events, resources) are still server-rendered with Thymeleaf and share the same stylesheet; they move over next.
+
+For frontend work, run the Java app and then `cd frontend && npm install && npm run dev` (http://localhost:5173, proxies `/api` to Java). `mvn package -Dskip.npm=true` skips the frontend build.
 
 ### Using MySQL instead of H2
 
@@ -37,11 +52,20 @@ mvn clean package
 java -jar target/gmu-erp-0.1.0.jar
 ```
 
-## Deploy (free, Render)
+## Deploy
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/neonjava/gmu-erp)
+**Full app on Render (free).** [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/neonjava/gmu-erp)
 
-Render builds the `Dockerfile` and starts the app. The free plan sleeps after 15 minutes idle (the first visit then takes about a minute), and the H2 data resets on each redeploy; the demo data is recreated automatically. Use the `mysql` profile with a hosted database to keep data.
+Render builds the `Dockerfile` (Maven builds the Java app and the React frontend) and starts it. The free plan sleeps after 15 minutes idle, so the first visit takes about a minute, and the H2 data resets on each redeploy; the demo data is recreated automatically. Use the `mysql` profile with a hosted database to keep data.
+
+**Any Docker host.**
+
+```bash
+docker build -t gmu-erp .
+docker run -p 8080:8080 gmu-erp        # then open http://localhost:8080
+```
+
+**Static preview on GitHub Pages.** `.github/workflows/pages.yml` builds the frontend in preview mode and publishes it on every push to `main` that touches the frontend. There is no server: the screens read sample data saved in `frontend/demo-data/`, and saving shows a "preview only" message. To refresh the sample data, start the app on an empty database and run `cd frontend && npm run capture:demo`. To build the preview locally: `npm run build:demo` (output in `frontend/dist-demo`).
 
 ## What each role can do
 
@@ -76,7 +100,7 @@ Render builds the `Dockerfile` and starts the app. The free plan sleeps after 15
 - Students can book labs and equipment only, with at most 2 upcoming bookings; rooms and halls are booked by faculty.
 - Users cancel their own bookings; admins can cancel any.
 
-Everyone can see notices and change their password. The dashboard mirrors the app's sections; features not built yet show as "Coming soon".
+Everyone can see notices and change their password. The dashboard mirrors the app's sections;.
 
 ## Code layout
 
@@ -85,10 +109,12 @@ in.neonjava.erp
 ├── model      JPA entities. Person (abstract) → Student, Faculty
 ├── repo       Spring Data repositories
 ├── service    Business rules: accounts, attendance %, grading/SGPA, timetable, events, bookings, demo data
-├── security   Spring Security config, login lookup, current user
-└── web        Controllers (student, faculty, admin/*)
-templates/     Thymeleaf pages
-static/        CSS and JS
+├── security   Spring Security config, login lockout, account checks, current user
+├── api        JSON endpoints for the React app (/api/...)
+└── web        Server-rendered controllers (faculty, admin/*, events, resources)
+templates/     Thymeleaf pages (not yet moved to React)
+static/        Shared CSS and JS
+frontend/      React + TypeScript app, built into the jar under /app
 ```
 
 ## Grading rules (edit in `Mark.java`)

@@ -3,5 +3,5 @@ services:
     name: gmu-erp
     runtime: docker
     plan: free
-    healthCheckPath: /login
+    healthCheckPath: /app/
     autoDeploy: true
